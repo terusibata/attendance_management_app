@@ -1,17 +1,32 @@
 <% provide(:title, 'ログイン') %>
-<h1>Log in</h1>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
+<div class="login-card">
+  <div class="login-card-title-area">
+    <h1 class="login-card-title">勤怠管理システム</h1>
+    <p class="login-card-subtitle">ログイン</p>
+  </div>
+  <div class="login-card-input-area">
     <%= form_for(:session, url: login_path, data: { turbo: false }) do |f| %>
 
-      <%= f.label :email %>
-      <%= f.email_field :email, class: 'form-control' %>
+      <div class="wave-group">
+        <%= f.email_field :email, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>メールアドレス</span>
+        </label>
+      </div>
 
-      <%= f.label :password %>
-      <%= f.password_field :password, class: 'form-control' %>
+      <div class="wave-group">
+        <%= f.password_field :password, class: 'input' %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>パスワード</span>
+        </label>
+      </div>
 
-      <%= f.submit "Log in", class: "btn btn-primary" %>
+      <div class="login-card-submit-area">
+        <%= f.submit "ログイン" %>
+      </div>
     <% end %>
   </div>
 </div>
