@@ -1,17 +1,63 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
-  <div class="container">
-    <%= link_to "sample app", root_path, id: "logo" %>
-    <nav>
-      <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "Home", root_path %></li>
-      </ul>
-      <% if logged_in? %>
-        <p>ログインしています</p>
-        <li><%= button_to "Log out", logout_path, method: :delete %><li>
+<header>
+  <div class="header-box">
+    <%= link_to root_path do %>
+      <div class="header-left">
+        <div class="header-button-area icon-right">
+          <i class="fa-solid fa-house header-home-icon"></i>
+          <p class="header-home-text">ホーム</p>
+        </div>
+      </div>
+    <% end %>
+    <div class="header-text">
+      <%= link_to "勤怠管理システム", root_path %>
+    </div>
+    <div class="header-right">
+      <% if params[:menu] %>
+        <%= button_to "", "#{request.path}", { method: :get } %>
+        <div class="header-button-area icon-left">
+          <i class="fa-solid fa-xmark header-bars-cion"></i>
+          <p class="header-bars-text">閉じる</p>
+        </div>
       <% else %>
-        <p>ログインしていません</p>
-        <li><%= link_to "Log in", login_path %></li>
+      <%= button_to "", "#{request.path}", { method: :get, params: {menu: true} } %>
+        <div class="header-button-area icon-left">
+          <i class="fa-solid fa-bars header-bars-cion"></i>
+          <p class="header-bars-text">メニュー</p>
+        </div>
       <% end %>
-    </nav>
+    </div>
   </div>
+
+  <% if params[:menu] %>
+    <div class="header-background" id="header-background"></div>
+    <div class="header-menu">
+      <div class="header-menu-card">
+        <div>
+          <p class="header-menu-card-text">管理項目</p>
+        </div>
+        <div class="header-menu-contents-card">
+          <div class="header-menu-contents-card-icon-area">
+            <i class="fa-solid fa-user header-menu-contents-card-icon"></i>
+            <p class="header-menu-contents-card-text">勤怠状況</p>
+          </div>
+          <div class="header-menu-contents-card-button-area">
+            <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "月別データ", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "日別データ", root_path, class: "header-menu-contents-card-button" %>
+          </div>
+        </div>
+        <div class="header-menu-contents-card">
+          <div class="header-menu-contents-card-icon-area">
+            <i class="fa-solid fa-users header-menu-contents-card-icon"></i>
+            <p class="header-menu-contents-card-text">従業員</p>
+          </div>
+          <div class="header-menu-contents-card-button-area">
+            <%= link_to "一覧", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "新規追加", root_path, class: "header-menu-contents-card-button" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 </header>
+

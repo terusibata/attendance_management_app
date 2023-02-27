@@ -1,0 +1,162 @@
+header{
+  position: relative;
+  width: 100%;
+  height: 55px;
+}
+.header-text{
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #B1D881;
+  width: 300px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+}
+.header-text a{
+  text-decoration: none;
+  font-size: 1.6em;
+  font-weight: 600;
+  color: #fff;
+}
+
+.header-left{
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 200px);
+  transform: translateX(-50%);
+  border-radius: 0 0 0 80px;
+  width: 100px;
+  height: 55px;
+  background-color: #B1D881;
+}
+.header-left:hover,
+.header-right:hover{
+  background-color: #92C752;
+}
+.header-left:active,
+.header-right:active{
+  background-color: #66A41B;
+}
+
+.header-right{
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: calc(50% + 200px);
+  transform: translateX(-50%);
+  border-radius: 0 0 80px 0;
+  width: 100px;
+  height: 55px;
+  background-color: #B1D881;
+}
+.header-right button{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 0;
+  appearance: none;
+}
+
+.header-button-area{
+  cursor: pointer;
+  margin-top: 5px;
+  text-align: center;
+  text-decoration: none;
+}
+.header-home-icon,
+.header-bars-cion{
+  font-size: 1.5em;
+  color: #fff;
+}
+.header-home-text,
+.header-bars-text{
+  font-size: 0.7em;
+  color: #fff;
+}
+.icon-right{
+  float: right;
+  margin-right: 20px;
+}
+.icon-left{
+  float: left;
+  margin-left: 20px;
+}
+
+.header-background{
+  z-index: 99;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+.header-menu-card{
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  z-index: 101;
+  max-width: 320px;
+  height: auto;
+  background-color: #B1D881;
+  border-radius: 10px;
+  padding: 20px 10px;
+  color: #fff;
+  text-align: center;
+}
+.header-menu-card-text{
+  font-size: 1.6em;
+  font-weight: 600;
+}
+.header-menu-contents-card{
+  border: 1px solid #fff;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.header-menu-contents-card-icon-area{
+  margin: 10px;
+}
+.header-menu-contents-card-icon{
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+.header-menu-contents-card-text{
+  font-size: 1.2em;
+}
+.header-menu-contents-card-button-area{
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.header-menu-contents-card-button{
+  width: 130px;
+  height: 40px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  font-weight: 600;
+  border: 1px solid #fff;
+  cursor: pointer;
+  margin: 5px;
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.header-menu-contents-card-button:hover{
+  background-color: #92C752;
+}
+.header-menu-contents-card-button:active{
+  background-color: #66A41B;
+}
