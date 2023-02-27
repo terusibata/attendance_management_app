@@ -1,7 +1,11 @@
 header{
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 55px;
+}
+.header-box-background{
+  width: 100%;
+  height: 80px;
 }
 .header-text{
   z-index: 100;
@@ -99,19 +103,77 @@ header{
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5); 
 }
-.header-menu-card{
+.header-menu{
   top: 100px;
   left: 50%;
+  width: 1100px;
+  max-height: calc(100vh - 100px);
+  overflow: auto;
   transform: translateX(-50%);
   position: absolute;
   z-index: 101;
-  max-width: 320px;
+  display: flex;
+  justify-content: space-around;
+}
+/* widthが1200pxよりも小さくなったとき */
+@media screen and (max-width: 1100px){
+  .header-menu{
+    display: block;
+    width: 100%;
+    display: grid;
+    place-items: center;
+  }
+}
+@media screen and (max-width: 500px){
+  .header-menu{
+    top: 60px;
+  }
+  .header-text{
+    width: calc(100% - 120px);
+    height: 45px;
+  }
+  .header-text a{
+    font-size: 1.2em;
+  }
+  .header-box-background{
+    height: 60px;
+  }
+  .header-left,.header-right{
+    height: 45px;
+    z-index: 101;
+    width: 60px;
+    transform: translateX(0);
+    border-radius: 0;
+  }
+  .header-left{
+    left: 0;
+  }
+  .header-right{
+    left: calc(100% - 60px);
+  }
+  .icon-right{
+    float: none;
+    margin-right: 0;
+  }
+  .icon-left{
+    float: none;
+    margin-left: 0;
+  }
+  .header-home-icon,
+  .header-bars-cion{
+    font-size: 1.2em;
+  }
+}
+.header-menu-card{
+  margin: 0 0 30px 0;
+  width: 320px;
   height: auto;
   background-color: #B1D881;
   border-radius: 10px;
   padding: 20px 10px;
   color: #fff;
   text-align: center;
+  overflow: auto;
 }
 .header-menu-card-text{
   font-size: 1.6em;
@@ -159,4 +221,17 @@ header{
 }
 .header-menu-contents-card-button:active{
   background-color: #66A41B;
+}
+.header-menu-contents-card-button button{
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 0;
+  color: #fff;
+  appearance: none;
+  font-size: 1em;
+  font-weight: 600;
 }
