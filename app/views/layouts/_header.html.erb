@@ -1,0 +1,17 @@
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="container">
+    <%= link_to "sample app", root_path, id: "logo" %>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "Home", root_path %></li>
+      </ul>
+      <% if logged_in? %>
+        <p>ログインしています</p>
+        <li><%= button_to "Log out", logout_path, method: :delete %><li>
+      <% else %>
+        <p>ログインしていません</p>
+        <li><%= link_to "Log in", login_path %></li>
+      <% end %>
+    </nav>
+  </div>
+</header>
