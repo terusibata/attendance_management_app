@@ -54,8 +54,8 @@
             <p class="header-menu-contents-card-text">従業員</p>
           </div>
           <div class="header-menu-contents-card-button-area">
-            <%= link_to "一覧", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "新規追加", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "一覧", users_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "新規追加", signup_path, class: "header-menu-contents-card-button" %>
           </div>
         </div>
       </div>
@@ -84,8 +84,8 @@
             <p class="header-menu-contents-card-text"><%= current_user.email %></p>
           </div>
           <div class="header-menu-contents-card-button-area">
-            <%= link_to "確認", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "編集", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "確認", current_user, class: "header-menu-contents-card-button" %>
+            <%= link_to "編集", edit_user_path(current_user), class: "header-menu-contents-card-button" %>
             <div class="header-menu-contents-card-button">
               <%= button_to "ログアウト", logout_path, method: :delete %>
             </div>
