@@ -1,0 +1,41 @@
+.alert-card{
+  position: relative;
+}
+.alert {
+  max-width: 450px;
+  position: fixed;
+  bottom: 25px;
+  right: 20px;
+  display: flex;
+  grid-gap: 0 .7em;
+  margin: 0 auto;
+  padding: 1em;
+  border-radius: 5px;
+  color: #333333;
+}
+.alert p {
+  margin: 0;
+  padding: 0 0 0 .7em;
+}
+
+.alert-success{
+  background-color: #ecffe9;
+}
+.alert-success .alert-icon{
+  margin-top: 3px;
+  color: #86d67c;
+}
+.alert-success p{
+  border-left: 1px solid #86d67c;
+}
+
+.alert-error{
+  background-color: #ffebee;
+}
+.alert-error .alert-icon{
+  margin-top: 3px;
+  color: #f06060;
+}
+.alert-error p{
+  border-left: 1px solid #f06060;
+}
