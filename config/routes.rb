@@ -6,8 +6,10 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :users do
     # usersリソースの下にルーティングを追加
-    get '/attendance/day', to: 'attendances#show_by_day'
-    get '/attendance/day/:date', to: 'attendances#show_by_day'
+    get '/attendance/today', to: redirect { |params, request| 
+      "/users/#{params[:user_id]}/attendance/day/#{Date.today.strftime('%Y-%m-%d')}" 
+    }
+    get '/attendance/day/:date', to: 'attendances#show_by_day', as: :attendance_day
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

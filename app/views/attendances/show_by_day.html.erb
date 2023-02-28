@@ -1,12 +1,51 @@
-<% provide(:title, "#{@user.name}さんの日別勤怠状況") %>
+<% provide(:title, "#{@user.name}さんの#{@current_date}の勤怠状況") %>
 
-<div>
-  <h1 class="users-title-area"><%= @user.name %>さんの日別勤怠状況</h1>
-
-  <div>
-    <% if @attendance %>
-      <%= @attendance.start_time %>
-      <%= @attendance.end_time %>
+<div class="attendance-card">
+  <div class="attendance-card-date">
+    <%= link_to user_attendance_day_path(@user, date: @yesterday.to_s), class: "attendance-card-date-icon", title: "前日：#{@yesterday}へ切り替え" do %>
+      <i class="fa-solid fa-angles-left"></i>
+    <% end %>
+    <div class="attendance-card-date-text">
+      <%= @current_date %>
+    </div>
+    <%= link_to user_attendance_day_path(@user, date: @tomorrow.to_s), class: "attendance-card-date-icon", title: "翌日：#{@tomorrow}へ切り替え" do %>
+      <i class="fa-solid fa-angles-right"></i>
     <% end %>
   </div>
+  <div>
+    従業員： <%= @user.name %>
+  </div>
+  <div class="attendance-card-time">
+    <div class="attendance-card-time-frame">
+      <p>実労働時間</p>
+      <p class="attendance-card-time-frame-text"><%= @working_time_str %></p>
+    </div>
+    <div class="attendance-card-time-frame">
+      <p>休憩時間</p>
+      <p class="attendance-card-time-frame-text">12分</p>
+    </div>
+    <div class="attendance-card-time-frame">
+      <p>残業時間</p>
+      <p class="attendance-card-time-frame-text">0時間</p>
+    </div>
+  </div>
+  <div class="attendance-card-button">
+    <% if @attendance.nil? %>
+      <%= link_to root_path, class: "index-user-card-button", title: "#{@current_date}に勤怠情報を追加する" do %>
+          <i class="fa-solid fa-plus"></i>
+          登録
+      <% end %>
+    <% else %>
+      <div>
+        <%= link_to root_path, class: "index-user-card-button" do %>
+          <i class="fa-solid fa-pen"></i>
+          編集
+        <% end %>
+      </div>
+      <div class="index-user-card-delete">
+        <%= button_to "削除", @user, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+      </div>
+    <% end %>
+  </div>
+  ※編集すると管理者に通知されます。
 </div>

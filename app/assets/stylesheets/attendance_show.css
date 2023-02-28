@@ -1,0 +1,78 @@
+.attendance-card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 650px;
+  height: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 3px solid #B1D881;
+  border-radius: 10px;
+}
+
+.attendance-card-date{
+  display: flex;
+}
+.attendance-card-date-text{
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0 30px;
+}
+.attendance-card-date-icon{
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
+  color: #B1D881;
+  text-decoration: none;
+  border-radius: 50%;
+}
+.attendance-card-date-icon:hover{
+  color: #fff;
+  background-color: #B1D881;
+}
+.attendance-card-date-icon:active{
+  background-color: #66A41B;
+}
+
+.attendance-card-time{
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.attendance-card-time-frame{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% / 3);
+  height: 100%;
+  padding: 10px;
+  margin: 0 10px;
+  box-sizing: border-box;
+  border: 1px solid #B1D881;
+  border-radius: 5px;
+}
+.attendance-card-time-frame p{
+  font-weight: bold;
+}
+.attendance-card-time-frame-text{
+  margin-top: 10px;
+  font-size: 1.3rem; 
+}
+
+.attendance-card-button{
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.attendance-card-button div{
+  margin: 0 15px;
+  width: 100px;
+}
