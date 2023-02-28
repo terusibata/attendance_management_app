@@ -1,15 +1,8 @@
 <% provide(:title, '従業員一覧') %>
 <p style="color: green"><%= notice %></p>
 
-<h1>Users</h1>
+<h1 class="users-title-area">従業員一覧</h1>
 
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
-  <% end %>
+<div class="users-body-area">
+  <%= render @users %>
 </div>
-
-<%= link_to "New user", new_user_path %>

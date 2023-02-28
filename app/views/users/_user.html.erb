@@ -1,32 +1,38 @@
-<div id="<%= dom_id user %>">
-  <p>
-    <strong>Name:</strong>
+<div class="index-user-card" id="<%= dom_id user %>">
+  <div class="index-user-card-name">
     <%= user.name %>
-  </p>
-
-  <p>
-    <strong>Password digest:</strong>
-    <%= user.password_digest %>
-  </p>
-
-  <p>
-    <strong>Email:</strong>
-    <%= user.email %>
-  </p>
-
-  <p>
-    <strong>Hire date:</strong>
-    <%= user.hire_date %>
-  </p>
-
-  <p>
-    <strong>End date:</strong>
-    <%= user.end_date %>
-  </p>
-
-  <p>
-    <strong>Admin:</strong>
-    <%= user.admin %>
-  </p>
-
+  </div>
+  <div class="index-user-card-flex">
+    <div class="index-user-card-button-area">
+      <div class="index-user-card-button-top">
+        <div class="index-user-card-button-top-text">
+          <p>プロフィール</p>
+        </div>
+        <%= link_to user, class: "index-user-card-button" do %>
+          確認
+        <% end %>
+        <%= link_to edit_user_path(user), class: "index-user-card-button" do %>
+          編集
+        <% end %>
+      </div>
+      <hr>
+      <div class="index-user-card-button-bottom">
+        <div class="index-user-card-button-bottom-text">
+          <p>勤怠状況</p>
+        </div>
+        <%= link_to root_path, class: "index-user-card-button" do %>
+          年別データ
+        <% end %>
+        <%= link_to root_path, class: "index-user-card-button" do %>
+          月別データ
+        <% end %>
+        <%= link_to root_path, class: "index-user-card-button" do %>
+          日別データ
+        <% end %>
+      </div>
+    </div>
+    <div class="index-user-card-delete">
+      <%= button_to "削除", user, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+    </div>
+  </div>
 </div>
