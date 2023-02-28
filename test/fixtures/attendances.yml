@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  work_day: 2023-02-28
+  start_time: 2023-02-28 21:33:35
+  end_time: 2023-02-28 21:33:35
+  protection: false
+
+two:
+  user: two
+  work_day: 2023-02-28
+  start_time: 2023-02-28 21:33:35
+  end_time: 2023-02-28 21:33:35
+  protection: false

@@ -120,7 +120,7 @@
   max-height: calc(100vh - 100px);
   overflow: auto;
   transform: translateX(-50%);
-  position: absolute;
+  position: fixed;
   z-index: 101;
   display: flex;
   justify-content: space-around;

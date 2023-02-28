@@ -1,0 +1,12 @@
+<% provide(:title, "#{@user.name}さんの日別勤怠状況") %>
+
+<div>
+  <h1 class="users-title-area"><%= @user.name %>さんの日別勤怠状況</h1>
+
+  <div>
+    <% if @attendance %>
+      <%= @attendance.start_time %>
+      <%= @attendance.end_time %>
+    <% end %>
+  </div>
+</div>
