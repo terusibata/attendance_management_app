@@ -32,7 +32,9 @@
       </div>
     </div>
     <div class="index-user-card-delete">
+      <% if current_user.admin? && !current_user?(user) %>
       <%= button_to "削除", user, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+      <% end %>
     </div>
   </div>
 </div>

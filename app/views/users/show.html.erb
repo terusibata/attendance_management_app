@@ -1,11 +1,7 @@
 <% provide(:title, 'プロフィール情報') %>
-<p style="color: green"><%= notice %></p>
+<% provide(:from_title_text1, 'プロフィール情報') %>
+<% provide(:from_icon1, 'fa-user') %>
+<% provide(:from_title_text2, '勤怠状況') %>
+<% provide(:from_icon2, 'fa-database') %>
 
-<%= render @user %>
-
-<div>
-  <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Back to users", users_path %>
-
-  <%= button_to "Destroy this user", @user, method: :delete %>
-</div>
+<%= render 'show' %>

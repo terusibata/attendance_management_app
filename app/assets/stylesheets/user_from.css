@@ -132,6 +132,18 @@
   margin-top: 40px;
 }
 
+.user-show-area{
+  display: flex;
+  height: 60px;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  font-weight: 600;
+}
+.user-show-area-title{
+  width: 30%;
+}
+
 /* widthが850pxより小さくなったら */
 @media screen and (max-width: 850px) {
   .user-from{

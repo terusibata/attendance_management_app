@@ -1,0 +1,44 @@
+<div class="user-from">
+  <div class="user-from-title">
+    <i class="fas <%= yield(:from_icon1) %> user-from-icon"></i>
+    <h2 class="user-from-title"><%= yield(:from_title_text1) %></h2>
+  </div>
+  <div class="user-from-body">
+    <div class="user-show-area">
+      <p class="user-show-area-title">従業員名</p>
+      <p><%= @user.name %></p>
+    </div>
+    <hr>
+    <div class="user-show-area">
+      <p class="user-show-area-title">メールアドレス</p>
+      <p><%= @user.email %></p>
+    </div>
+    <hr>
+    <div class="user-show-area">
+      <p class="user-show-area-title">雇用開始日</p>
+      <p><%= @user.hire_date %></p>
+    </div>
+    <%= link_to edit_user_path(@user), class: "index-user-card-button" do %>
+      <i class="fa-solid fa-pen"></i>
+      編集
+    <% end %>
+  </div>
+</div>
+
+<div class="user-from">
+  <div class="user-from-title">
+    <i class="fas <%= yield(:from_icon2) %> user-from-icon"></i>
+    <h2 class="user-from-title"><%= yield(:from_title_text2) %></h2>
+  </div>
+  <div class="user-from-body">
+    <%= link_to root_path, class: "index-user-card-button" do %>
+      日別データ
+    <% end %>
+    <%= link_to root_path, class: "index-user-card-button" do %>
+      月別データ
+    <% end %>
+    <%= link_to root_path, class: "index-user-card-button" do %>
+      年別データ
+    <% end %>
+  </div>
+</div>
