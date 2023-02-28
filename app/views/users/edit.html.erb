@@ -1,13 +1,6 @@
 <% provide(:title, 'プロフィール編集') %>
 <% provide(:button_text, '変更を保存') %>
-
-<h1>Editing user</h1>
+<% provide(:from_title_text, 'プロフィール編集') %>
+<% provide(:from_icon, 'fa-user-pen') %>
 
 <%= render "form", user: @user %>
-
-<br>
-
-<div>
-  <%= link_to "Show this user", @user %> |
-  <%= link_to "Back to users", users_path %>
-</div>

@@ -1,0 +1,7 @@
+.error-list{
+  border: 2px solid #f06060;
+  border-radius: 5px;
+  padding: 1em;
+  margin-bottom: 2em;
+  text-align: left;
+}

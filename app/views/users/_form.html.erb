@@ -1,27 +1,73 @@
 
-<%= form_for(@user, data: { turbo: false } ) do |f| %>
-  <%= render 'shared/error_messages' %>
+<div class="user-from">
+  <div class="user-from-title">
+    <i class="fas <%= yield(:from_icon) %> user-from-icon"></i>
+    <h2 class="user-from-title"><%= yield(:from_title_text) %></h2>
+  </div>
+  <div class="user-from-body">
+    <%= form_for(@user, data: { turbo: false } ) do |f| %>
+      <%= render 'shared/error_messages' %>
 
-  <%= f.label :name %>
-  <%= f.text_field :name, class: 'form-control' %>
+      <div class="wave-group user-from-input">
+        <%= f.text_field :name, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>従業員名</span>
+        </label>
+      </div>
 
-  <%= f.label :email %>
-  <%= f.email_field :email, class: 'form-control' %>
+      <div class="wave-group user-from-input">
+        <%= f.email_field :email, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>メールアドレス</span>
+        </label>
+      </div>
 
-  <%= f.label :password %>
-  <%= f.password_field :password, class: 'form-control' %>
+      <div class="wave-group user-from-input">
+        <%= f.password_field :password, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>パスワード</span>
+        </label>
+      </div>
 
-  <%= f.label :password_confirmation, "Confirmation" %>
-  <%= f.password_field :password_confirmation, class: 'form-control' %>
-  
-  <%= f.label :hire_date %>
-  <%= f.date_field :hire_date %>
+      <div class="wave-group user-from-input">
+        <%= f.password_field :password_confirmation, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>再パスワード</span>
+        </label>
+      </div>
 
-  <%= f.label :end_date %>
-  <%= f.date_field :end_date %>
+      <div class="wave-group user-from-input">
+        <%= f.date_field :hire_date, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>雇用開始日</span>
+        </label>
+      </div>
 
-  <%= f.label :admin %>
-  <%= f.check_box :admin, class: 'form-control' %>
+      <div class="wave-group user-from-input">
+        <%= f.date_field :end_date, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>雇用終了日</span>
+        </label>
+      </div>
 
-  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
-<% end %>
+      <div class="checkbox-wrapper-16">
+        <label class="checkbox-wrapper">
+          <%= f.check_box :admin, class: "checkbox-input"%>
+          <span class="checkbox-tile">
+            <span class="checkbox-label">管理者権限を与える</span>
+          </span>
+        </label>
+      </div>
+
+      <div class="login-card-submit-area user-from-submit-area">
+        <%= f.submit yield(:button_text)%>
+      </div>
+    <% end %>
+  </div>
+</div>

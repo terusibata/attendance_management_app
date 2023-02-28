@@ -1,12 +1,17 @@
 <% if @user.errors.any? %>
   <div id="error_explanation">
-    <div class="alert alert-danger">
-      The form contains <%= pluralize(@user.errors.count, "error") %>.
+    <div class="alert-card">
+      <div class="alert alert-error">
+        <i class="fa-solid fa-exclamation-triangle alert-icon"></i>
+        <p><%= @user.errors.count %>件のエラーがあります。</p>
+      </div>
     </div>
-    <ul>
-    <% @user.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
+    <div class="error-list">
+      <p>以下の理由で保存に失敗しました</p>
+      <% @user.errors.full_messages.each do |msg| %>
+        <p>・<%= msg %></p>
+      <% end %>
+    </div>
     </ul>
   </div>
 <% end %>

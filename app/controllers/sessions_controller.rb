@@ -1,4 +1,13 @@
 class SessionsController < ApplicationController
+  # ログイン済みの場合はhomeにリダイレクト
+  before_action :logged_in_user, only: [:new]
+
+  def new
+    if logged_in?
+      redirect_to root_path
+    end
+  end
+
   def new
   end
 
@@ -17,4 +26,13 @@ class SessionsController < ApplicationController
     log_out
     redirect_to root_url
   end
+
+  private
+    # ログイン済みユーザーかどうか確認
+    def logged_in_user
+      if logged_in?
+        flash[:error] = "すでにログインしています"
+        redirect_to root_path
+      end
+    end
 end
