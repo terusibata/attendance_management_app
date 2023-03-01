@@ -32,3 +32,11 @@ Attendance.create!(user_id: 2, work_day: "2023-02-03", start_time: "09:00:00", e
 Attendance.create!(user_id: 2, work_day: "2023-02-04", start_time: "09:00:00", end_time: "18:00:00")
 Attendance.create!(user_id: 3, work_day: "2023-02-05", start_time: "09:00:00", end_time: "18:00:00")
 Attendance.create!(user_id: 3, work_day: "2023-02-06", start_time: "09:00:00", end_time: "18:00:00")
+
+Break.create!(attendance_id: 1, start_time: "10:00:00", end_time: "11:00:00")
+Break.create!(attendance_id: 1, start_time: "11:20:00", end_time: "11:30:00")
+Break.create!(attendance_id: 1, start_time: "12:00:00", end_time: "13:10:00")
+Break.create!(attendance_id: 2, start_time: "10:00:00", end_time: "11:00:00")
+Break.create!(attendance_id: 2, start_time: "12:00:00", end_time: "13:10:00")
+Break.create!(attendance_id: 3, start_time: "10:00:00", end_time: "11:00:00")
+Break.create!(attendance_id: 3, start_time: "12:00:00", end_time: "13:10:00")

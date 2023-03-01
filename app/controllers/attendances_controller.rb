@@ -16,6 +16,7 @@ class AttendancesController < ApplicationController
     if @attendance.nil? || @attendance.start_time.nil? || @attendance.end_time.nil?
       # 0を代入します。
       working_time_str = '--'
+      break_time_str = '--'
     else
       # 労働時間を計算します。
       working_seconds = @attendance.end_time - @attendance.start_time
@@ -23,6 +24,20 @@ class AttendancesController < ApplicationController
       working_minutes = (working_seconds % 3600) / 60
       # 労働時間を「時間:分」の形式で表記します。
       working_time_str = format('%d時間%d分', working_hours.to_i, working_minutes.to_i)
+
+      # 休憩時間を取得
+      @break_time_list = @attendance.break.all
+      # もし、break_time_listがnilなら
+      if @break_time_list.count.zero?
+        # 0を代入します。
+      else
+        # 休憩時間を計算します。
+        break_seconds = @break_time_list.map { |break_time| break_time.end_time - break_time.start_time }.sum
+        break_hours = break_seconds / 3600
+        break_minutes = (break_seconds % 3600) / 60
+        # 休憩時間を「時間:分」の形式で表記します。
+        break_time_str = format('%d時間%d分', break_hours.to_i, break_minutes.to_i)
+      end
     end
     
     # 結果を変数に代入します。
@@ -31,6 +46,7 @@ class AttendancesController < ApplicationController
     @yesterday = yesterday.strftime('%Y-%m-%d')
     @tomorrow = tomorrow.strftime('%Y-%m-%d')
     @working_time_str = working_time_str
+    @break_time_str = break_time_str
   end
   
   def new
