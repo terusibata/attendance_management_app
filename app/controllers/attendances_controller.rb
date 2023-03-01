@@ -26,10 +26,11 @@ class AttendancesController < ApplicationController
       working_time_str = format('%d時間%d分', working_hours.to_i, working_minutes.to_i)
 
       # 休憩時間を取得
-      @break_time_list = @attendance.break.all
+      @break_time_list = @attendance.break.order(start_time: :asc, id: :asc).all
       # もし、break_time_listがnilなら
       if @break_time_list.count.zero?
         # 0を代入します。
+        break_time_str = '--'
       else
         # 休憩時間を計算します。
         break_seconds = @break_time_list.map { |break_time| break_time.end_time - break_time.start_time }.sum

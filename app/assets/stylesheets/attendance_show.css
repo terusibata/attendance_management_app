@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin: 0 auto 20px auto;
   width: 650px;
   height: auto;
   padding: 20px;
@@ -75,4 +75,118 @@
 .attendance-card-button div{
   margin: 0 15px;
   width: 100px;
+}
+
+.attendance-area{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 650px;
+  height: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+.attendance-area-presence,
+.attendance-area-clocking-out{
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+.attendance-area-presence{
+  border: 2px solid #81C3D8;
+}
+.attendance-area-clocking-out{
+  border: 2px solid #819fd8;
+}
+.attendance-area-presence::after{
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: #81C3D8 transparent transparent transparent;
+  position: absolute;
+  bottom: -10px;
+  left: 25%;
+  transform: translateX(-50%);
+}
+
+.attendance-area-presence-title,
+.attendance-area-clocking-out-title{
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  width: 50%;
+}
+.attendance-area-presence-time,
+.attendance-area-clocking-out-time{
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  width: 50%;
+}
+
+.attendance-area-break{
+  width: 90%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+  border: 2px solid #B1D881;
+  padding: 10px 0;
+}
+.attendance-area-break::after{
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: #B1D881 transparent transparent transparent;
+  position: absolute;
+  bottom: -10px;
+  left: 22.5%;
+  transform: translateX(-50%);
+}
+.attendance-area-break-title{
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  width: 45%;
+}
+.attendance-area-break-time{
+  text-align: center;
+  width: 55%;
+}
+
+/* widthが670pxより小さくなったら */
+@media screen and (max-width: 670px) {
+  .attendance-card,
+  .attendance-area{
+    width: 90%;
+  }
+  .attendance-card-date-text{
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .attendance-card-time{
+    display: block;
+  }
+  .attendance-card-time-frame{
+    width: 90%;
+    margin-bottom: 10px;
+  }
 }
