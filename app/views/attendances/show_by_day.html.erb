@@ -31,7 +31,7 @@
   </div>
   <div class="attendance-card-button">
     <% if @attendance.nil? %>
-      <%= link_to root_path, class: "index-user-card-button", title: "#{@current_date}に勤怠情報を追加する" do %>
+      <%= link_to user_new_attendance_path(@user, @new_create_date), class: "index-user-card-button", title: "#{@current_date}に勤怠情報を追加する" do %>
           <i class="fa-solid fa-plus"></i>
           登録
       <% end %>

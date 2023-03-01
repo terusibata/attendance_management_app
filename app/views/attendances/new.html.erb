@@ -1,0 +1,6 @@
+<% provide(:title, "#{@user.name}さんの#{@current_date}の勤怠状況") %>
+<% provide(:from_title_text, "勤怠状況") %>
+<% provide(:from_icon, "fa-calendar-alt") %>
+<% provide(:button_text, "勤怠登録") %>
+
+<%= render "form", user: @user, attendance: @attendance %>

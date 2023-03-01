@@ -1,0 +1,66 @@
+.attendance-from{
+  width: 800px;
+  margin: 0 auto 50px auto;
+  border: 2px solid #B1D881;
+  border-radius: 10px;
+  text-align: center;
+  padding: 30px;
+  box-sizing: border-box;
+}
+.attendance-from-date{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.attendance-from-date-text{
+  font-size: 2em;
+  font-weight: 600;
+}
+.attendance-from-body{
+  width: 500px;
+  margin: 50px auto 0 auto;
+}
+.attendance-from-input{
+  width: 100%;
+}
+.attendance-from-input .input{
+  width: 100% !important;
+  box-sizing: border-box;
+}
+.attendance-from-down-icon{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2em;
+  color: #B1D881;
+}
+
+.attendance-from-new-salary{
+  border: 1px solid #B1D881;
+  border-radius: 5px;
+  width: 80%;
+  margin: 0 auto 40px auto;
+  padding: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: #B1D881;
+}
+.attendance-from-new-salary:hover{
+  background-color: #B1D881;
+  color: #fff;
+}
+.attendance-from-new-salary:active{
+  background-color: #66A41B;
+}
+
+/* widthが850pxより小さくなったら */
+@media screen and (max-width: 850px) {
+  .attendance-from{
+    width: 90%;
+    margin: 0 auto 50px auto;
+  }
+  .attendance-from-body{
+    width: 90%;
+    margin: 50px auto 0 auto;
+  }
+}

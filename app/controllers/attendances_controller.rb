@@ -24,22 +24,59 @@ class AttendancesController < ApplicationController
     end
     
     # 結果を変数に代入します。
-    @current_date = current_date.strftime('%Y-%m-%d')
+    @current_date = current_date.strftime('%Y年%m月%d日')
+    @new_create_date = current_date.strftime('%Y-%m-%d')
     @yesterday = yesterday.strftime('%Y-%m-%d')
     @tomorrow = tomorrow.strftime('%Y-%m-%d')
     @working_time_str = working_time_str
   end
-
-  def valid_date_day?(date_string)
-    # YYYY-MM-DD のフォーマットでなければ無効
-    return false unless date_string =~ /^\d{4}-\d{2}-\d{2}$/
   
-    begin
-      # パースできなければ無効
-      Date.parse(date_string)
-      true
-    rescue ArgumentError
-      false
+  def new
+    @user = User.find(params[:user_id])
+    @attendance = @user.attendances.build
+    if params[:date].nil? || !valid_date_day?(params[:date])
+      current_date = Date.today
+    else
+      current_date = DateTime.parse(params[:date])
+    end
+    @current_date = current_date.strftime('%Y年%m月%d日')
+    @new_create_date = current_date.strftime('%Y-%m-%d')
+  end
+  
+  def create
+    @user = User.find(params[:user_id])
+    if params[:date].nil? || !valid_date_day?(params[:date])
+      flash[:danger] = "日付が無効です"
+      render 'new'
+      return
+    else
+      current_date = DateTime.parse(params[:date])
+    end
+    @new_create_date = current_date.strftime('%Y-%m-%d')
+    @attendance = @user.attendances.build(attendance_params)
+    if @attendance.save
+      flash[:success] = "勤怠を登録しました"
+      redirect_to user_attendance_day_path(@user, @attendance.work_day)
+    else
+      render 'new'
     end
   end
+
+  private
+    def attendance_params
+      params.require(:attendance).permit(:user_id, :start_time, :end_time).merge(work_day: @new_create_date)
+    end
+
+    def valid_date_day?(date_string)
+      # YYYY-MM-DD のフォーマットでなければ無効
+      return false unless date_string =~ /^\d{4}-\d{2}-\d{2}$/
+    
+      begin
+        # パースできなければ無効
+        Date.parse(date_string)
+        true
+      rescue ArgumentError
+        false
+      end
+    end
 end

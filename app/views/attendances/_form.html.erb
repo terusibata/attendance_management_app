@@ -1,0 +1,46 @@
+<div class="attendance-from">
+  <div class="attendance-from-date">
+    <div class="attendance-from-date-text">
+      <%= @current_date %>の勤怠追加
+    </div>
+  </div>
+  <div>
+    従業員： <%= @user.name %>
+  </div>
+  <div class="attendance-from-body">
+    <%= form_for([@user, @attendance], data: { turbo: false } , url: user_create_attendance_path(@user, @new_create_date)) do |f| %>
+      <%= render 'shared/error_messages' %>
+
+      <div class="wave-group attendance-from-input">
+        <%= f.time_field :start_time, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>出勤時間</span>
+        </label>
+        <div class="attendance-from-down-icon">
+          <i class="fa-solid fa-caret-down"></i>
+        </div>
+      </div>
+
+      <div class="attendance-from-new-salary">
+        <i class="fa-solid fa-plus"></i>
+        <span>新規休憩時間を追加</span>
+        <div class="attendance-from-down-icon">
+          <i class="fa-solid fa-caret-down"></i>
+        </div>
+      </div>
+
+      <div class="wave-group attendance-from-input">
+        <%= f.time_field :end_time, class: "input" %>
+        <span class="bar"></span>
+        <label class="label">
+          <span>退勤時間</span>
+        </label>
+      </div>
+
+      <div class="login-card-submit-area attendance-from-submit-area">
+        <%= f.submit yield(:button_text)%>
+      </div>
+    <% end %>
+  </div>
+</div>
