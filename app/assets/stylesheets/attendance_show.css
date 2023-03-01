@@ -98,6 +98,7 @@
   align-items: center;
   position: relative;
   margin-bottom: 20px;
+  padding: 10px 0;
 }
 .attendance-area-presence{
   border: 2px solid #81C3D8;
@@ -166,7 +167,12 @@
 }
 .attendance-area-break-time{
   text-align: center;
+  margin-top: 20px;
   width: 55%;
+}
+.attendance-area-break-time-text{
+  font-size: 1.3rem;
+  font-weight: bold;
 }
 
 /* widthが670pxより小さくなったら */
@@ -188,5 +194,17 @@
   .attendance-card-time-frame{
     width: 90%;
     margin-bottom: 10px;
+  }
+  .attendance-area-break{
+    display: block;
+  }
+  .attendance-area-break-title,
+  .attendance-area-break-time{
+    width: 90%;
+    margin: auto;
+  }
+  .attendance-area-break::after,
+  .attendance-area-presence::after{
+    left: 50%;
   }
 }

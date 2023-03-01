@@ -53,6 +53,18 @@
   background-color: #66A41B;
 }
 
+.attendance-from-break{
+  border: 1px solid #B1D881;
+  border-radius: 5px;
+  width: 80%;
+  margin: 0 auto 50px auto;
+  position: relative;
+  padding: 10px;
+}
+.attendance-from-break-title{
+  font-size: 1.3em;
+}
+
 /* widthが850pxより小さくなったら */
 @media screen and (max-width: 850px) {
   .attendance-from{

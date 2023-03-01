@@ -57,27 +57,20 @@
         出勤
       </div>
       <div class="attendance-area-presence-time">
-        <i class="fa-regular fa-clock"></i>
-        <% if @attendance.present? %>
+        <% if !@attendance.start_time.nil? %>
+          <i class="fa-regular fa-clock"></i>
           <%= @attendance.start_time.strftime("%H:%M") %>
         <% else %>
-          --
+          入力なし
         <% end %>
       </div>
     </div>
     <% if !@break_time_list.nil? %>
       <% @break_time_list.each do |break_data| %>
-
         <div class="attendance-area-break">
           <div class="attendance-area-break-title">
             休憩
-          </div>
-          <div class="attendance-area-break-time">
-            <i class="fa-regular fa-clock"></i>
-            <%= break_data.start_time.strftime("%H:%M") %>
-            <i class="fa-solid fa-minus"></i>
-            <%= break_data.end_time.strftime("%H:%M") %>
-            <p>
+            <p class="attendance-area-break-time-text">
               <%= 
                 break_seconds = break_data.end_time - break_data.start_time
                 break_hours = break_seconds / 3600
@@ -87,20 +80,44 @@
               %>
             </p>
           </div>
+          <div class="attendance-area-break-time">
+            <i class="fa-regular fa-clock"></i>
+            <%= break_data.start_time.strftime("%H:%M") %>
+            <i class="fa-solid fa-minus"></i>
+            <%= break_data.end_time.strftime("%H:%M") %>
+            <div class="attendance-card-button">
+              <div>
+                <%= link_to user_edit_attendance_path(@user, @new_create_date), class: "index-user-card-button", title: "この休憩時間を編集する" do %>
+                  <i class="fa-solid fa-pen"></i>
+                  編集
+                <% end %>
+              </div>
+              <div class="index-user-card-delete">
+                <%= button_to "削除", user_delete_attendance_path(@user, @new_create_date), method: :delete, data: { confirm: "本当に削除しますか？" }, title: "この休憩時間を削除する" %>
+              </div>
+            </div>
+          </div>
         </div>
-
       <% end %>
     <% end %>
+    <div class="attendance-area-break">
+      <div>
+        <%= link_to root_path, class: "index-user-card-button", title: "休憩時間を追加する" do %>
+          <i class="fa-solid fa-plus"></i>
+          休憩時間を追加する
+        <% end %>
+      </div>
+    </div>
     <div class="attendance-area-clocking-out">
       <div class="attendance-area-clocking-out-title">
         退勤
       </div>
       <div class="attendance-area-clocking-out-time">
-        <i class="fa-regular fa-clock"></i>
-        <% if @attendance.present? %>
+        <% if !@attendance.end_time.nil? %>
+          <i class="fa-regular fa-clock"></i>
           <%= @attendance.end_time.strftime("%H:%M") %>
         <% else %>
-          --
+          入力なし
         <% end %>
       </div>
     </div>

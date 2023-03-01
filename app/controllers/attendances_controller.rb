@@ -65,6 +65,7 @@ class AttendancesController < ApplicationController
   def edit
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find_by(work_day: params[:date])
+    @break_time_list = @attendance.break.order(start_time: :asc, id: :asc).all
     @current_date = @attendance.work_day.strftime('%Y年%m月%d日')
     @new_create_date = @attendance.work_day.strftime('%Y-%m-%d')
   end
