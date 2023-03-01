@@ -35,7 +35,7 @@
   color: #B1D881;
 }
 
-.attendance-from-new-salary{
+.attendance-from-new-break{
   border: 1px solid #B1D881;
   border-radius: 5px;
   width: 80%;
@@ -45,11 +45,11 @@
   cursor: pointer;
   color: #B1D881;
 }
-.attendance-from-new-salary:hover{
+.attendance-from-new-break:hover{
   background-color: #B1D881;
   color: #fff;
 }
-.attendance-from-new-salary:active{
+.attendance-from-new-break:active{
   background-color: #66A41B;
 }
 

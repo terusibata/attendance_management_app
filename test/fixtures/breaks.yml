@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  attendance: one
+  start_time: 2023-03-01 21:39:49
+  end_time: 2023-03-01 21:39:49
+
+two:
+  attendance: two
+  start_time: 2023-03-01 21:39:49
+  end_time: 2023-03-01 21:39:49
