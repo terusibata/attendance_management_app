@@ -26,14 +26,16 @@ class AttendancesController < ApplicationController
       working_time_str = format('%d時間%d分', working_hours.to_i, working_minutes.to_i)
 
       # 休憩時間を取得
-      @break_time_list = @attendance.break.order(start_time: :asc, id: :asc).all
+      @break_time_list = @attendance.breaks.order(start_time: :asc, id: :asc).all
       # もし、break_time_listがnilなら
       if @break_time_list.count.zero?
         # 0を代入します。
         break_time_str = '--'
       else
         # 休憩時間を計算します。
-        break_seconds = @break_time_list.map { |break_time| break_time.end_time - break_time.start_time }.sum
+        break_seconds = @break_time_list.map { |break_time|
+          break_time.end_time.present? && break_time.start_time.present? ? break_time.end_time - break_time.start_time : 0
+        }.sum
         break_hours = break_seconds / 3600
         break_minutes = (break_seconds % 3600) / 60
         # 休憩時間を「時間:分」の形式で表記します。
@@ -65,7 +67,6 @@ class AttendancesController < ApplicationController
   def edit
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find_by(work_day: params[:date])
-    @break_time_list = @attendance.break.order(start_time: :asc, id: :asc).all
     @current_date = @attendance.work_day.strftime('%Y年%m月%d日')
     @new_create_date = @attendance.work_day.strftime('%Y-%m-%d')
   end
@@ -121,16 +122,7 @@ class AttendancesController < ApplicationController
       params.require(:attendance).permit(:user_id, :start_time, :end_time).merge(work_day: @new_create_date)
     end
 
-    def valid_date_day?(date_string)
-      # YYYY-MM-DD のフォーマットでなければ無効
-      return false unless date_string =~ /^\d{4}-\d{2}-\d{2}$/
-    
-      begin
-        # パースできなければ無効
-        Date.parse(date_string)
-        true
-      rescue ArgumentError
-        false
-      end
+    def valid_date_day?(date)
+      Date.valid_date?(*date.split('-').map(&:to_i))
     end
 end

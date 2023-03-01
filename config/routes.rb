@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :users do
     # usersリソースの下にルーティングを追加
+    # attendanceのルーティング
     get '/attendance/today', to: redirect { |params, request| 
       "/users/#{params[:user_id]}/attendance/day/#{Date.today.strftime('%Y-%m-%d')}" 
     }
@@ -23,7 +24,13 @@ Rails.application.routes.draw do
     get '/attendance/edit/:date', to: 'attendances#edit', as: :edit_attendance
     patch '/attendance/edit/:date', to: 'attendances#update', as: :update_attendance
     delete '/attendance/edit/:date', to: 'attendances#destroy', as: :delete_attendance
+    # breakのルーティング
+    get '/attendance/day/:date/break/new', to: 'breaks#new', as: :new_break
+    post '/attendance/day/:date/break/new', to: 'breaks#create', as: :create_break
   end
+  get '/break/edit/:id', to: 'breaks#edit', as: :edit_break
+  patch '/break/edit/:id', to: 'breaks#update', as: :update_break
+  delete '/break/edit/:id', to: 'breaks#destroy', as: :delete_break
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

@@ -1,0 +1,5 @@
+<% provide(:title, "#{@user.name}さんの#{@current_date}の休憩時間を登録") %>
+<% provide(:button_text, "休憩登録") %>
+<% provide(:request_url, user_create_break_path(@user, @new_create_date)) %>
+
+<%= render "form", user: @user, attendance: @attendance, break: @break %>

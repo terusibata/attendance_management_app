@@ -1,0 +1,5 @@
+<% provide(:title, "#{@user.name}さんの#{@current_date}の休憩時間を編集") %>
+<% provide(:button_text, "休憩編集") %>
+<% provide(:request_url, update_break_path(@break.id)) %>
+
+<%= render "form", user: @user, attendance: @attendance, break: @break %>
