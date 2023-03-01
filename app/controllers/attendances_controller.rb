@@ -18,9 +18,11 @@ class AttendancesController < ApplicationController
       working_time_str = '--'
     else
       # 労働時間を計算します。
-      working_hours = (@attendance.end_time - @attendance.start_time) / 3600
+      working_seconds = @attendance.end_time - @attendance.start_time
+      working_hours = working_seconds / 3600
+      working_minutes = (working_seconds % 3600) / 60
       # 労働時間を「時間:分」の形式で表記します。
-      working_time_str = format('%d時間%d分', working_hours.to_i, (working_hours % 1 * 60).to_i)
+      working_time_str = format('%d時間%d分', working_hours.to_i, working_minutes.to_i)
     end
     
     # 結果を変数に代入します。
@@ -42,6 +44,13 @@ class AttendancesController < ApplicationController
     @current_date = current_date.strftime('%Y年%m月%d日')
     @new_create_date = current_date.strftime('%Y-%m-%d')
   end
+
+  def edit
+    @user = User.find(params[:user_id])
+    @attendance = @user.attendances.find_by(work_day: params[:date])
+    @current_date = @attendance.work_day.strftime('%Y年%m月%d日')
+    @new_create_date = @attendance.work_day.strftime('%Y-%m-%d')
+  end
   
   def create
     @user = User.find(params[:user_id])
@@ -60,6 +69,33 @@ class AttendancesController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def update
+    @user = User.find(params[:user_id])
+    @attendance = @user.attendances.find_by(work_day: params[:date])
+    if params[:date].nil? || !valid_date_day?(params[:date])
+      flash[:danger] = "日付が無効です"
+      render 'edit'
+      return
+    else
+      current_date = DateTime.parse(params[:date])
+    end
+    @new_create_date = current_date.strftime('%Y-%m-%d')
+    if @attendance.update(attendance_params)
+      flash[:success] = "勤怠を更新しました"
+      redirect_to user_attendance_day_path(@user, @attendance.work_day)
+    else
+      render 'edit'
+    end
+  end
+
+  def destroy
+    @user = User.find(params[:user_id])
+    @attendance = @user.attendances.find_by(work_day: params[:date])
+    @attendance.destroy
+    flash[:success] = "勤怠を削除しました"
+    redirect_to user_attendance_day_path(@user, params[:date])
   end
 
   private

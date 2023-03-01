@@ -1,0 +1,5 @@
+<% provide(:title, "#{@user.name}さんの#{@current_date}の勤怠編集") %>
+<% provide(:button_text, "勤怠編集") %>
+<% provide(:request_url, user_update_attendance_path(@user, @new_create_date)) %>
+
+<%= render "form", user: @user, attendance: @attendance %>

@@ -37,13 +37,13 @@
       <% end %>
     <% else %>
       <div>
-        <%= link_to root_path, class: "index-user-card-button" do %>
+        <%= link_to user_edit_attendance_path(@user, @new_create_date), class: "index-user-card-button", title: "#{@current_date}の勤怠情報を編集する" do %>
           <i class="fa-solid fa-pen"></i>
           編集
         <% end %>
       </div>
       <div class="index-user-card-delete">
-        <%= button_to "削除", @user, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+        <%= button_to "削除", user_delete_attendance_path(@user, @new_create_date), method: :delete, data: { confirm: "本当に削除しますか？" }, title: "#{@current_date}の勤怠情報を削除する" %>
       </div>
     <% end %>
   </div>

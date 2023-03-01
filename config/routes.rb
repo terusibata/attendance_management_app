@@ -16,6 +16,13 @@ Rails.application.routes.draw do
     }
     get '/attendance/new/:date', to: 'attendances#new', as: :new_attendance
     post '/attendance/new/:date', to: 'attendances#create', as: :create_attendance
+
+    get '/attendance/edit/today', to: redirect { |params, request|
+      "/users/#{params[:user_id]}/attendance/edit/#{Date.today.strftime('%Y-%m-%d')}"
+    }
+    get '/attendance/edit/:date', to: 'attendances#edit', as: :edit_attendance
+    patch '/attendance/edit/:date', to: 'attendances#update', as: :update_attendance
+    delete '/attendance/edit/:date', to: 'attendances#destroy', as: :delete_attendance
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
