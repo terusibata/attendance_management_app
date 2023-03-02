@@ -1,4 +1,7 @@
 class BreaksController < ApplicationController
+  before_action :logged_in_user
+  before_action :correct_user,   only: [:new, :edit, :create, :update, :destroy]
+  
   def new
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find_by(work_day: params[:date])
@@ -95,5 +98,27 @@ class BreaksController < ApplicationController
 
     def valid_date_day?(date)
       Date.valid_date?(*date.split('-').map(&:to_i))
+    end
+
+    # ログイン済みユーザーかどうか確認
+    def logged_in_user
+      unless logged_in?
+        store_location
+        flash[:error] = "ログインしてください"
+        redirect_to login_url
+      end
+    end
+
+    # 正しいユーザーかどうか確認
+    def correct_user
+      @user = User.find(params[:user_id])
+      if !current_user.admin?
+        redirect_to(root_url) unless current_user?(@user)
+      end
+    end
+
+    # 管理者かどうか確認
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
 end
