@@ -31,6 +31,13 @@ Rails.application.routes.draw do
   get '/break/edit/:id', to: 'breaks#edit', as: :edit_break
   patch '/break/edit/:id', to: 'breaks#update', as: :update_break
   delete '/break/edit/:id', to: 'breaks#destroy', as: :delete_break
+
+  # 出退勤、休憩時間を登録する
+  post '/attendance/start', to: 'attendances#start', as: :start_attendance
+  post '/attendance/end', to: 'attendances#end', as: :end_attendance
+  post '/break/start', to: 'breaks#start', as: :start_break
+  post '/break/:id/end', to: 'breaks#end', as: :end_break
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

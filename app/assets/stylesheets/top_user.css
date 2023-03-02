@@ -1,0 +1,179 @@
+.home-attendance{
+  position: relative;
+  width: 500px;
+  margin: 0 auto;
+}
+.home-attendance-date{
+  width: 100%;
+  max-width: 900px;
+  top: 0;
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: 1.5rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  text-align: center;
+}
+#clock-date{
+  height: 60px;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+#clock-time{
+  font-size: 4rem;
+  font-weight: bold;
+  height: 40px;
+}
+.home-attendance-card{
+  width: 100%;
+  margin-top: 20px;
+}
+.home-attendance-card p{
+  font-size: 1.2rem;
+}
+
+.home-attendance-button{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.home-attendance-button-in-text {
+  font-size: 1.2rem;
+  width: 170px;
+  margin: 0 20px;
+  font-weight: bold;
+  padding: 0.6em 2em;
+  border: none;
+  outline: none;
+  color: rgb(255, 255, 255);
+  background: #111;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  border-radius: 50%;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+
+.home-attendance-button-in-text.rainbow-color:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-home-attendance-button-in-text 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+.home-attendance-button-in-text.green-color:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #99ff00,
+    #84ff00,
+    #48ff00,
+    #00ff1a,
+    #3cd300,
+    #34b600,
+    #00d019,
+    #48ff00,
+    #c7fc81
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-home-attendance-button-in-text 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+}
+
+@keyframes glowing-home-attendance-button-in-text {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 400% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.home-attendance-button-in-text:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #222;
+  left: 0;
+  top: 0;
+  border-radius: 10px;
+}
+
+/* widthが510px以下になったら */
+@media screen and (max-width: 510px) {
+  .home-attendance{
+    width: 90%;
+  }
+  #clock-date{
+    height: 60px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  #clock-time{
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  .home-attendance-button-in-text{
+    font-size: 1.1rem;
+    width: 150px;
+  }
+}

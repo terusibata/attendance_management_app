@@ -10,7 +10,7 @@ class BreaksController < ApplicationController
   def create
     @user = User.find(params[:user_id])
     if params[:date].nil? || !valid_date_day?(params[:date])
-      flash[:danger] = "日付が無効です"
+      flash[:error] = "日付が無効です"
       render 'new'
       return
     else
@@ -57,6 +57,37 @@ class BreaksController < ApplicationController
     redirect_to user_attendance_day_path(user_id, work_day)
   end
 
+  def start
+    @user = current_user
+    @attendance = @user.attendances.find_by(work_day: Date.today)
+  
+    if !@attendance || !@attendance.start_time || @attendance.start_time > Time.current
+      flash[:error] = "休憩を開始できません"
+      redirect_to root_path
+    elsif @attendance.breaks.where(end_time: nil).exists?
+      flash[:error] = "すでに休憩中です"
+      redirect_to root_path
+    else
+      @attendance.breaks.create(start_time: Time.current.strftime('%H:%M'))
+      flash[:success] = "休憩を開始しました"
+      redirect_to root_path
+    end
+  end
+  
+  # 休憩終了時間を登録するアクション
+  def end
+    @break = Break.find(params[:id])
+  
+    if !@break || @break.end_time
+      flash[:error] = "休憩を終了できません"
+      redirect_to root_path
+    else
+      @break.update(end_time: Time.current.strftime('%H:%M'))
+      flash[:success] = "休憩を終了しました"
+      redirect_to root_path
+    end
+  end
+  
   private
     def break_params
       params.require(:break).permit(:start_time, :end_time)

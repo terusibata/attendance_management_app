@@ -74,7 +74,7 @@ class AttendancesController < ApplicationController
   def create
     @user = User.find(params[:user_id])
     if params[:date].nil? || !valid_date_day?(params[:date])
-      flash[:danger] = "日付が無効です"
+      flash[:error] = "日付が無効です"
       render 'new'
       return
     else
@@ -94,7 +94,7 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.find_by(work_day: params[:date])
     if params[:date].nil? || !valid_date_day?(params[:date])
-      flash[:danger] = "日付が無効です"
+      flash[:error] = "日付が無効です"
       render 'edit'
       return
     else
@@ -117,6 +117,44 @@ class AttendancesController < ApplicationController
     redirect_to user_attendance_day_path(@user, params[:date])
   end
 
+  def start
+    @user = current_user
+    @attendance = @user.attendances.find_by(work_day: Date.today)
+    if @attendance
+      flash[:error] = "すでに出勤は登録されています"
+      redirect_to root_path
+    else
+      @attendance = @user.attendances.create(work_day: Date.today, start_time: Time.current.strftime('%H:%M'))
+      if @attendance.save
+        flash[:success] = "出勤しました"
+        redirect_to root_path
+      else
+        flash[:error] = "出勤処理に失敗しました"
+        redirect_to root_path
+      end
+    end
+  end
+
+  def end
+    @user = current_user
+    @attendance = @user.attendances.find_by(work_day: Date.today)
+  
+    if !@attendance
+      flash[:error] = "勤怠を開始していません"
+      redirect_to root_path
+    elsif @attendance.end_time
+      flash[:error] = "すでに勤怠を終了しています"
+      redirect_to root_path
+    elsif !@attendance.start_time
+      flash[:error] = "出勤時間が登録されていません"
+      redirect_to root_path
+    else
+      @attendance.update(end_time: Time.current.strftime('%H:%M'))
+      flash[:success] = "退勤しました"
+      redirect_to root_path
+    end
+  end
+  
   private
     def attendance_params
       params.require(:attendance).permit(:user_id, :start_time, :end_time).merge(work_day: @new_create_date)
