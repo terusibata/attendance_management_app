@@ -103,13 +103,13 @@
             %>
             <div class="attendance-card-button">
               <div>
-                <%= link_to edit_break_path(break_data.id), class: "index-user-card-button", title: "この休憩時間を編集する" do %>
+                <%= link_to user_edit_break_path(@user, break_data.id), class: "index-user-card-button", title: "この休憩時間を編集する" do %>
                   <i class="fa-solid fa-pen"></i>
                   編集
                 <% end %>
               </div>
               <div class="index-user-card-delete">
-                <%= button_to "削除", delete_break_path(break_data.id), method: :delete, data: { confirm: "本当に削除しますか？" }, title: "この休憩時間を削除する" %>
+                <%= button_to "削除", user_delete_break_path(@user, break_data.id), method: :delete, data: { confirm: "本当に削除しますか？" }, title: "この休憩時間を削除する" %>
               </div>
             </div>
           </div>

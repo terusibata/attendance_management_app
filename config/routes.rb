@@ -27,10 +27,10 @@ Rails.application.routes.draw do
     # breakのルーティング
     get '/attendance/day/:date/break/new', to: 'breaks#new', as: :new_break
     post '/attendance/day/:date/break/new', to: 'breaks#create', as: :create_break
+    get '/break/edit/:id', to: 'breaks#edit', as: :edit_break
+    patch '/break/edit/:id', to: 'breaks#update', as: :update_break
+    delete '/break/edit/:id', to: 'breaks#destroy', as: :delete_break
   end
-  get '/break/edit/:id', to: 'breaks#edit', as: :edit_break
-  patch '/break/edit/:id', to: 'breaks#update', as: :update_break
-  delete '/break/edit/:id', to: 'breaks#destroy', as: :delete_break
 
   # 出退勤、休憩時間を登録する
   post '/attendance/start', to: 'attendances#start', as: :start_attendance
