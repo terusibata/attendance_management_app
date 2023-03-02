@@ -102,3 +102,14 @@
   background-color: #66A41B;
   border: 1px solid #66A41B;
 }
+
+/* widthが500pxより小さくなったら */
+@media screen and (max-width: 500px) {
+  .login-card{
+    width: 90%;
+  }
+  .wave-group .input{
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
