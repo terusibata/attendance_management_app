@@ -39,39 +39,53 @@
       <div class="header-menu-contents-card">
         <div class="header-menu-contents-card-icon-area">
           <i class="fa-solid fa-database header-menu-contents-card-icon"></i>
-          <p class="header-menu-contents-card-text">勤怠状況</p>
+          <% if current_user.admin %>
+            <p class="header-menu-contents-card-text">勤怠状況</p>
+          <% else %>
+            <p class="header-menu-contents-card-text">自分の勤怠状況</p>
+          <% end %>
         </div>
         <div class="header-menu-contents-card-button-area">
-          <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
-          <%= link_to "月別データ", root_path, class: "header-menu-contents-card-button" %>
-          <%= link_to "日別データ", root_path, class: "header-menu-contents-card-button" %>
+          <% if current_user.admin %>
+            <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "月別データ", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "日別データ", root_path, class: "header-menu-contents-card-button" %>
+          <% else %>
+            <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "月別データ", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "日別データ", user_attendance_today_path(current_user), class: "header-menu-contents-card-button" %>
+          <% end %>
         </div>
       </div>
-      <div class="header-menu-contents-card">
-        <div class="header-menu-contents-card-icon-area">
-          <i class="fa-solid fa-users header-menu-contents-card-icon"></i>
-          <p class="header-menu-contents-card-text">従業員</p>
+      <% if current_user.admin %>
+        <div class="header-menu-contents-card">
+          <div class="header-menu-contents-card-icon-area">
+            <i class="fa-solid fa-users header-menu-contents-card-icon"></i>
+            <p class="header-menu-contents-card-text">従業員</p>
+          </div>
+          <div class="header-menu-contents-card-button-area">
+            <%= link_to "一覧", users_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "新規追加", signup_path, class: "header-menu-contents-card-button" %>
+          </div>
         </div>
-        <div class="header-menu-contents-card-button-area">
-          <%= link_to "一覧", users_path, class: "header-menu-contents-card-button" %>
-          <%= link_to "新規追加", signup_path, class: "header-menu-contents-card-button" %>
-        </div>
-      </div>
+      <% end %>
     </div>
-    <div class="header-menu-card">
-      <div>
-        <p class="header-menu-card-text">レポート</p>
-      </div>
-      <div class="header-menu-contents-card">
-        <div class="header-menu-contents-card-icon-area">
-          <i class="fa-solid fa-user-pen header-menu-contents-card-icon"></i>
-          <p class="header-menu-contents-card-text">勤怠状況</p>
+    <% if current_user.admin %>
+      <div class="header-menu-card">
+        <div>
+          <p class="header-menu-card-text">レポート</p>
         </div>
-        <div class="header-menu-contents-card-button-area">
-          <%= link_to "一覧", root_path, class: "header-menu-contents-card-button" %>
+        <div class="header-menu-contents-card">
+          <div class="header-menu-contents-card-icon-area">
+            <i class="fa-solid fa-user-pen header-menu-contents-card-icon"></i>
+            <p class="header-menu-contents-card-text">勤怠状況</p>
+          </div>
+          <div class="header-menu-contents-card-button-area">
+            <%= link_to "一覧", root_path, class: "header-menu-contents-card-button" %>
+          </div>
         </div>
       </div>
-    </div>
+    <% end %>
     <div class="header-menu-card">
       <div>
         <p class="header-menu-card-text">個人項目</p>

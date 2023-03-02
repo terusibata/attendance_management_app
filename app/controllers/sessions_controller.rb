@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       log_in user
-      redirect_to user
+      redirect_to root_path
     else
       flash.now[:error] = 'メールアドレスまたはパスワードが間違っています'
       render 'new'
@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
     # ログイン済みユーザーかどうか確認
     def logged_in_user
       if logged_in?
-        flash[:error] = "すでにログインしています"
+        flash[:success] = "すでにログインしています"
         redirect_to root_path
       end
     end
