@@ -25,6 +25,7 @@ class AttendancesController < ApplicationController
     @tomorrow = tomorrow.strftime('%Y-%m-%d')
     @working_time_str = @attendance_data[:working_time_str]
     @break_time_str = @attendance_data[:break_time_str]
+    @break_time_list = @attendance_data[:break_time_list]
   end
 
   def show_by_month
@@ -270,6 +271,7 @@ class AttendancesController < ApplicationController
 
       # 返す値を設定します。
       return {
+        break_time_list: break_time_list,
         working_seconds: working_seconds,
         break_seconds: break_seconds,
         working_time_str: convert_seconds_to_time_str(working_seconds),
