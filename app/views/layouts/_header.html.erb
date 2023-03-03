@@ -52,7 +52,7 @@
             <%= link_to "日別データ", root_path, class: "header-menu-contents-card-button" %>
           <% else %>
             <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "月別データ", root_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "月別データ", user_attendance_thismonth_path(current_user), class: "header-menu-contents-card-button" %>
             <%= link_to "日別データ", user_attendance_today_path(current_user), class: "header-menu-contents-card-button" %>
           <% end %>
         </div>
