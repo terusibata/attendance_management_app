@@ -31,14 +31,22 @@
     <h2 class="user-from-title"><%= yield(:from_title_text2) %></h2>
   </div>
   <div class="user-from-body">
-    <%= link_to user_attendance_today_path(@user), class: "index-user-card-button" do %>
-      日別データ
-    <% end %>
-    <%= link_to user_attendance_thismonth_path(@user), class: "index-user-card-button" do %>
-      月別データ
-    <% end %>
-    <%= link_to root_path, class: "index-user-card-button" do %>
-      年別データ
-    <% end %>
+    <div class="user-show-attendance">
+      <div class="user-show-attendance-button">
+        <%= link_to user_attendance_today_path(@user), class: "index-user-card-button" do %>
+          日別データ
+        <% end %>
+      </div>
+      <div class="user-show-attendance-button">
+        <%= link_to user_attendance_thismonth_path(@user), class: "index-user-card-button" do %>
+          月別データ
+        <% end %>
+      </div>
+      <div class="user-show-attendance-button">
+        <%= link_to root_path, class: "index-user-card-button" do %>
+          年別データ
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

@@ -37,10 +37,10 @@
       class: "attendance-area-month
         #{attendance[:status] == "未登録" ? 
           "gray" : 
-          if attendance[:start_time].present? || attendance[:end_time].present?
-            "blue"
-          else
+          if attendance[:start_time].nil? || attendance[:end_time].nil?
             "red"
+          else
+            "blue"
           end
         }
       ",

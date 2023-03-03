@@ -71,6 +71,7 @@ class AttendancesController < ApplicationController
 
     # すべての日付に対する出勤情報を作成します。
     @month_attendances = []
+    wd = ["日", "月", "火", "水", "木", "金", "土"]
     days_in_month.times do |i|
       # 出勤日を取得
       work_day = first_day + i.days
@@ -79,7 +80,7 @@ class AttendancesController < ApplicationController
         attendance_data = {
           status: "未登録",
           work_day: work_day.strftime('%Y-%m-%d'),
-          day_str: work_day.strftime('%d日(月)'),
+          day_str: work_day.strftime("%d日(#{wd[work_day.wday]})"),
         }
       else
         @attendance_time = calculate_working_time(attendance)
@@ -87,7 +88,7 @@ class AttendancesController < ApplicationController
           status: "登録済",
           id: attendance.id,
           work_day: work_day.strftime('%Y-%m-%d'),
-          day_str: work_day.strftime('%d日(月)'),
+          day_str: work_day.strftime("%d日(#{wd[work_day.wday]})"),
           start_time: attendance.start_time,
           end_time: attendance.end_time,
           working_time: @attendance_time[:working_time],
@@ -266,6 +267,8 @@ class AttendancesController < ApplicationController
           }.sum
         end
         # 労働時間を計算します。
+        puts "開始時間: #{attendance.start_time}"
+        puts "終了時間: #{attendance.end_time}"
         working_seconds = attendance.end_time - attendance.start_time - break_seconds
       end
 

@@ -69,6 +69,7 @@
   border: 1px solid #B1D881;
   border-radius: 5px;
   margin: 0 10px;
+  min-height: 25px;
   text-decoration: none;
   color: #B1D881;
   font-weight: bold;
@@ -96,6 +97,16 @@
   background-color: #D88181;
   color: #fff;
 }
+.user-show-attendance{
+  width: 100%;
+  display: flex;
+  margin: 10px 0;
+}
+.user-show-attendance-button{
+  width: 100px;
+  margin: 20px auto;
+}
+
 /* widthが800px以下 */
 @media screen and (max-width: 800px) {
   .index-user-card{
@@ -126,5 +137,8 @@
   }
   .index-user-card-delete{
     float: right;
+  }
+  .user-show-attendance{
+    display: block;
   }
 }
