@@ -17,7 +17,7 @@ class BreaksController < ApplicationController
       render 'new'
       return
     else
-      current_date = DateTime.parse(params[:date])
+      current_date = Time.parse(params[:date])
     end
     @new_create_date = current_date.strftime('%Y-%m-%d')
     @attendance = @user.attendances.find_by(work_day: params[:date])
@@ -62,7 +62,7 @@ class BreaksController < ApplicationController
 
   def start
     @user = current_user
-    @attendance = @user.attendances.find_by(work_day: Date.today)
+    @attendance = @user.attendances.find_by(work_day: Time.current)
   
     if !@attendance || !@attendance.start_time || @attendance.start_time > Time.current
       flash[:error] = "休憩を開始できません"
@@ -97,7 +97,12 @@ class BreaksController < ApplicationController
     end
 
     def valid_date_day?(date)
-      Date.valid_date?(*date.split('-').map(&:to_i))
+      begin
+        Date.parse(date)
+        return true
+      rescue ArgumentError
+        return false
+      end
     end
 
     # ログイン済みユーザーかどうか確認

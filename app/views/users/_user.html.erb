@@ -23,7 +23,7 @@
         <%= link_to root_path, class: "index-user-card-button" do %>
           年別データ
         <% end %>
-        <%= link_to root_path, class: "index-user-card-button" do %>
+        <%= link_to user_attendance_thismonth_path(user), class: "index-user-card-button" do %>
           月別データ
         <% end %>
         <%= link_to user_attendance_today_path(user), class: "index-user-card-button" do %>

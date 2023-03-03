@@ -1,0 +1,115 @@
+<% provide(:title, "#{@user.name}さんの#{@current_month}の勤怠状況") %>
+
+<div class="attendance-card">
+  <div class="attendance-card-date">
+    <%= link_to user_attendance_month_path(@user, @prev_month.to_s), class: "attendance-card-date-icon", title: "前月：#{@prev_month}へ切り替え" do %>
+      <i class="fa-solid fa-angles-left"></i>
+    <% end %>
+    <div class="attendance-card-date-text">
+      <%= @current_month %>
+    </div>
+    <%= link_to user_attendance_month_path(@user, @next_month.to_s), class: "attendance-card-date-icon", title: "翌月：#{@next_month}へ切り替え" do %>
+      <i class="fa-solid fa-angles-right"></i>
+    <% end %>
+  </div>
+  <div>
+    従業員： <%= @user.name %>
+  </div>
+  <div class="attendance-card-time">
+    <div class="attendance-card-time-frame">
+      <p>実労働時間</p>
+      <p class="attendance-card-time-frame-text"><%= @working_time_total_str %></p>
+    </div>
+    <div class="attendance-card-time-frame">
+      <p>休憩時間</p>
+      <p class="attendance-card-time-frame-text"><%= @break_time_total_str %></p>
+    </div>
+    <div class="attendance-card-time-frame">
+      <p>残業時間</p>
+      <p class="attendance-card-time-frame-text">--</p>
+    </div>
+  </div>
+</div>
+
+<div class="attendance-area">
+  <% @month_attendances.each do |attendance| %>
+    <%= link_to user_attendance_day_path(@user, attendance[:work_day]),
+      class: "attendance-area-month
+        #{attendance[:status] == "未登録" ? 
+          "gray" : 
+          if attendance[:start_time].present? || attendance[:end_time].present?
+            "blue"
+          else
+            "red"
+          end
+        }
+      ",
+      title: "#{attendance[:work_day]}の勤怠状況を確認" do
+    %>
+      <div class="attendance-area-month-title">
+        <%=attendance[:day_str]%>
+      </div>
+      <div class="attendance-area-month-time">
+        <% if attendance[:status] == "登録済" %>
+          <div class="attendance-area-month-start-time">
+            <%=
+              if attendance[:start_time].present?
+                attendance[:start_time].strftime("%H:%M")
+              else
+                "入力なし"
+              end
+            %>
+          </div>
+          <div class="attendance-area-month-space-time">
+            ～
+          </div>
+          <div class="attendance-area-month-end-time">
+            <%=
+              if attendance[:end_time].present?
+                attendance[:end_time].strftime("%H:%M")
+              else
+                "入力なし"
+              end
+            %>
+          </div>
+        <% else %>
+          <div class="attendance-area-month-start-time">
+            --
+          </div>
+        <% end %>
+      </div>
+      <div class="attendance-area-month-sum">
+        <% if attendance[:status] == "登録済" %>
+          <div>
+            実労働時間
+          </div>
+          <div class="attendance-area-month-sum-text">
+            <%=
+              if attendance[:working_time_str].present?
+                attendance[:working_time_str]
+              else
+                "--"
+              end
+            %>
+          </div>
+        <% end %>
+      </div>
+      <div class="attendance-area-month-sum">
+        <% if attendance[:status] == "登録済" %>
+          <div>
+            休憩時間
+          </div>
+          <div class="attendance-area-month-sum-text">
+            <%=
+              if attendance[:break_time_str].present?
+                attendance[:break_time_str]
+              else
+                "--"
+              end
+            %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

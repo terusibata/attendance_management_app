@@ -1,14 +1,14 @@
 class AttendancesController < ApplicationController
   before_action :logged_in_user
-  before_action :correct_user,   only: [:show_by_day, :new, :edit, :create, :update, :destroy]
+  before_action :correct_user,   only: [:show_by_day, :show_by_month, :new, :edit, :create, :update, :destroy]
 
   def show_by_day
     @user = User.find(params[:user_id])
     # work_dayがparams[:date]のレコードを取得
     if params[:date].nil? || !valid_date_day?(params[:date])
-      current_date = Date.today
+      current_date = Time.current
     else
-      current_date = DateTime.parse(params[:date])
+      current_date = Time.parse(params[:date])
     end
     @attendance = @user.attendances.find_by(work_day: current_date)
     # 前日の日付を計算します。
@@ -16,52 +16,97 @@ class AttendancesController < ApplicationController
     # 翌日の日付を計算します。
     tomorrow = current_date + 1.day
     # もし、@attendanceがnilなら
-    if @attendance.nil? || @attendance.start_time.nil? || @attendance.end_time.nil?
-      # 0を代入します。
-      working_time_str = '--'
-      break_time_str = '--'
-    else
-      # 労働時間を計算します。
-      working_seconds = @attendance.end_time - @attendance.start_time
-      working_hours = working_seconds / 3600
-      working_minutes = (working_seconds % 3600) / 60
-      # 労働時間を「時間:分」の形式で表記します。
-      working_time_str = format('%d時間%d分', working_hours.to_i, working_minutes.to_i)
-
-      # 休憩時間を取得
-      @break_time_list = @attendance.breaks.order(start_time: :asc, id: :asc).all
-      # もし、break_time_listがnilなら
-      if @break_time_list.count.zero?
-        # 0を代入します。
-        break_time_str = '--'
-      else
-        # 休憩時間を計算します。
-        break_seconds = @break_time_list.map { |break_time|
-          break_time.end_time.present? && break_time.start_time.present? ? break_time.end_time - break_time.start_time : 0
-        }.sum
-        break_hours = break_seconds / 3600
-        break_minutes = (break_seconds % 3600) / 60
-        # 休憩時間を「時間:分」の形式で表記します。
-        break_time_str = format('%d時間%d分', break_hours.to_i, break_minutes.to_i)
-      end
-    end
+    @attendance_data = calculate_working_time(@attendance)
     
     # 結果を変数に代入します。
     @current_date = current_date.strftime('%Y年%m月%d日')
     @new_create_date = current_date.strftime('%Y-%m-%d')
     @yesterday = yesterday.strftime('%Y-%m-%d')
     @tomorrow = tomorrow.strftime('%Y-%m-%d')
-    @working_time_str = working_time_str
-    @break_time_str = break_time_str
+    @working_time_str = @attendance_data[:working_time_str]
+    @break_time_str = @attendance_data[:break_time_str]
+  end
+
+  def show_by_month
+    @user = User.find(params[:user_id])
+  
+    # 与えられた月の初日と末日を計算します。
+    if params[:month].nil? || !valid_date_month?(params[:month])
+      current_month = Time.current.beginning_of_month
+    else
+      current_month = Time.new(params[:month].split('-')[0].to_i, params[:month].split('-')[1].to_i, 1)
+    end
+    puts current_month
+    # その月の最初の日を取得
+    first_day = current_month.beginning_of_month
+    # その月の最後の日を取得
+    last_day = current_month.end_of_month
+    # その月の日数を計算
+    days_in_month = last_day.day
+    
+    # 与えられた月のすべての日付に対する出勤情報を取得します。
+    @attendances = @user.attendances.where(work_day: first_day..last_day).order(work_day: :asc)
+  
+    # 与えられた月の実労働時間と休憩時間を計算します。
+    working_seconds = 0
+    break_seconds = 0
+    @attendances.each do |attendance|
+      break_time_list = attendance.breaks.order(start_time: :asc, id: :asc).all
+      break_seconds += break_time_list.map { |break_time|
+        break_time.end_time.present? && break_time.start_time.present? ? break_time.end_time - break_time.start_time : 0
+      }.sum
+      # 出勤時間と退勤時間が両方存在する場合のみ、実労働時間を計算します。
+      if attendance.start_time.present? && attendance.end_time.present?
+        working_seconds += attendance.end_time - attendance.start_time - break_seconds
+      end
+    end
+    
+    # 結果を変数に代入します。
+    @current_month = current_month.strftime('%Y年%m月')
+    @prev_month = (current_month - 1.month).strftime('%Y-%m')
+    @next_month = (current_month + 1.month).strftime('%Y-%m')
+    @working_time_total_str = convert_seconds_to_time_str(working_seconds)
+    @break_time_total_str = convert_seconds_to_time_str(break_seconds)
+
+    # すべての日付に対する出勤情報を作成します。
+    @month_attendances = []
+    days_in_month.times do |i|
+      # 出勤日を取得
+      work_day = first_day + i.days
+      attendance = @user.attendances.find_by(work_day: work_day)
+      if attendance.nil?
+        attendance_data = {
+          status: "未登録",
+          work_day: work_day.strftime('%Y-%m-%d'),
+          day_str: work_day.strftime('%d日(月)'),
+        }
+      else
+        @attendance_time = calculate_working_time(attendance)
+        attendance_data = {
+          status: "登録済",
+          id: attendance.id,
+          work_day: work_day.strftime('%Y-%m-%d'),
+          day_str: work_day.strftime('%d日(月)'),
+          start_time: attendance.start_time,
+          end_time: attendance.end_time,
+          working_time: @attendance_time[:working_time],
+          break_time: @attendance_time[:break_time],
+          working_time_str: @attendance_time[:working_time_str],
+          break_time_str: @attendance_time[:break_time_str]
+        }
+      end
+      # 出勤情報を配列に追加します。
+      @month_attendances << attendance_data
+    end
   end
   
   def new
     @user = User.find(params[:user_id])
     @attendance = @user.attendances.build
     if params[:date].nil? || !valid_date_day?(params[:date])
-      current_date = Date.today
+      current_date = Time.current
     else
-      current_date = DateTime.parse(params[:date])
+      current_date = Time.parse(params[:date])
     end
     @current_date = current_date.strftime('%Y年%m月%d日')
     @new_create_date = current_date.strftime('%Y-%m-%d')
@@ -81,7 +126,7 @@ class AttendancesController < ApplicationController
       render 'new'
       return
     else
-      current_date = DateTime.parse(params[:date])
+      current_date = Time.parse(params[:date])
     end
     @new_create_date = current_date.strftime('%Y-%m-%d')
     @attendance = @user.attendances.build(attendance_params)
@@ -101,7 +146,7 @@ class AttendancesController < ApplicationController
       render 'edit'
       return
     else
-      current_date = DateTime.parse(params[:date])
+      current_date = Time.parse(params[:date])
     end
     @new_create_date = current_date.strftime('%Y-%m-%d')
     if @attendance.update(attendance_params)
@@ -122,12 +167,12 @@ class AttendancesController < ApplicationController
 
   def start
     @user = current_user
-    @attendance = @user.attendances.find_by(work_day: Date.today)
+    @attendance = @user.attendances.find_by(work_day: Time.current)
     if @attendance
       flash[:error] = "すでに出勤は登録されています"
       redirect_to root_path
     else
-      @attendance = @user.attendances.create(work_day: Date.today, start_time: Time.current.strftime('%H:%M'))
+      @attendance = @user.attendances.create(work_day: Time.current, start_time: Time.current.strftime('%H:%M'))
       if @attendance.save
         flash[:success] = "出勤しました"
         redirect_to root_path
@@ -140,7 +185,7 @@ class AttendancesController < ApplicationController
 
   def end
     @user = current_user
-    @attendance = @user.attendances.find_by(work_day: Date.today)
+    @attendance = @user.attendances.find_by(work_day: Time.current)
   
     if !@attendance
       flash[:error] = "勤怠を開始していません"
@@ -164,7 +209,16 @@ class AttendancesController < ApplicationController
     end
 
     def valid_date_day?(date)
-      Date.valid_date?(*date.split('-').map(&:to_i))
+      begin
+        Date.parse(date)
+        return true
+      rescue ArgumentError
+        return false
+      end
+    end
+
+    def valid_date_month?(date)
+      /\A\d{4}-\d{2}\z/ === date
     end
 
     # ログイン済みユーザーかどうか確認
@@ -187,5 +241,54 @@ class AttendancesController < ApplicationController
     # 管理者かどうか確認
     def admin_user
       redirect_to(root_url) unless current_user.admin?
+    end
+
+    # その日の勤怠時間を計算します。
+    def calculate_working_time(attendance)
+      # もし、@attendanceがnilなら
+      if attendance.nil? || attendance.start_time.nil? || attendance.end_time.nil?
+        # 0を代入します。
+        working_time_str = '--'
+        break_time_str = '--'
+      else
+        # 休憩時間を取得
+        break_time_list = attendance.breaks.order(start_time: :asc, id: :asc).all
+        # もし、break_time_listがnilなら
+        if break_time_list.count.zero?
+          # 0を代入します。
+          break_time_str = '--'
+          break_seconds = 0
+        else
+          # 休憩時間を計算します。
+          break_seconds = break_time_list.map { |break_time|
+            break_time.end_time.present? && break_time.start_time.present? ? break_time.end_time - break_time.start_time : 0
+          }.sum
+        end
+        # 労働時間を計算します。
+        working_seconds = attendance.end_time - attendance.start_time - break_seconds
+      end
+
+      # 返す値を設定します。
+      return {
+        working_seconds: working_seconds,
+        break_seconds: break_seconds,
+        working_time_str: convert_seconds_to_time_str(working_seconds),
+        break_time_str: convert_seconds_to_time_str(break_seconds)
+      }
+    end
+
+    # 秒数を"?時間?分"の形式の文字列に変換します。
+    def convert_seconds_to_time_str(seconds)
+      if seconds.nil?
+        return '--'
+      else
+        hours = seconds / 3600
+        minutes = (seconds % 3600) / 60
+        if hours.zero?
+          return "#{minutes.to_i}分"
+        else
+          return "#{hours.to_i}時間#{minutes.to_i}分"
+        end
+      end
     end
 end

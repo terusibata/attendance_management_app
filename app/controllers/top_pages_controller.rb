@@ -3,7 +3,7 @@ class TopPagesController < ApplicationController
 
   def home
     @user = current_user
-    @attendance = @user.attendances.find_by(work_day: Date.today)
+    @attendance = @user.attendances.find_by(work_day: Time.current)
   
     if @attendance.nil?
       @status = "出勤前"

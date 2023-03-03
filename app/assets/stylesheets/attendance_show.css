@@ -175,6 +175,55 @@
   font-weight: bold;
 }
 
+/* month */
+.attendance-area-month{
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  text-decoration: none;
+  color: #202124;
+}
+.attendance-area-month-title{
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  width: 20%;
+}
+.attendance-area-month-time{
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.attendance-area-month-sum{
+  text-align: center;
+  width: 20%;
+}
+.attendance-area-month-sum-text{
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+.attendance-area-month.gray{
+  border: 2px solid rgb(183, 183, 183);
+}
+.attendance-area-month:hover{
+  background-color: rgb(241, 241, 241);
+}
+.attendance-area-month.blue{
+  border: 2px solid #81C3D8;
+}
+.attendance-area-month.red{
+  border: 2px solid #D88181;
+}
+
 /* widthが670pxより小さくなったら */
 @media screen and (max-width: 670px) {
   .attendance-card,

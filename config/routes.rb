@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   resources :users do
     # usersリソースの下にルーティングを追加
-    # attendanceのルーティング
+    # attendance/dayのルーティング
     get '/attendance/today', to: redirect { |params, request| 
       "/users/#{params[:user_id]}/attendance/day/#{Date.today.strftime('%Y-%m-%d')}" 
     }
@@ -24,6 +24,13 @@ Rails.application.routes.draw do
     get '/attendance/edit/:date', to: 'attendances#edit', as: :edit_attendance
     patch '/attendance/edit/:date', to: 'attendances#update', as: :update_attendance
     delete '/attendance/edit/:date', to: 'attendances#destroy', as: :delete_attendance
+
+    # attendance/monthのルーティング
+    get '/attendance/thismonth', to: redirect { |params, request|
+      "/users/#{params[:user_id]}/attendance/month/#{Date.today.strftime('%Y-%m')}"
+    }
+    get '/attendance/month/:month', to: 'attendances#show_by_month', as: :attendance_month
+
     # breakのルーティング
     get '/attendance/day/:date/break/new', to: 'breaks#new', as: :new_break
     post '/attendance/day/:date/break/new', to: 'breaks#create', as: :create_break
