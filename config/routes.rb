@@ -45,6 +45,12 @@ Rails.application.routes.draw do
   post '/break/start', to: 'breaks#start', as: :start_break
   post '/break/:id/end', to: 'breaks#end', as: :end_break
 
+  # 管理者用：従業員全員の勤怠情報を表示する
+  get '/admin/attendance/today', to: redirect { |params, request|
+    "/admin/attendance/day/#{Date.today.strftime('%Y-%m-%d')}"
+  }
+  get '/admin/attendance/day/:date', to: 'attendances#show_admin_by_day', as: :admin_attendance_day
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

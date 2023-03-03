@@ -1,0 +1,56 @@
+<% provide(:title, "従業員全員の#{@current_date}の勤怠状況") %>
+
+<div class="attendance-card">
+  <div class="attendance-card-date">
+    <%= link_to admin_attendance_day_path(@yesterday), class: "attendance-card-date-icon", title: "前日：#{@yesterday}へ切り替え" do %>
+      <i class="fa-solid fa-angles-left"></i>
+    <% end %>
+    <div class="attendance-card-date-text">
+      <%= @current_date %>
+    </div>
+    <%= link_to admin_attendance_day_path(@tomorrow), class: "attendance-card-date-icon", title: "翌日：#{@tomorrow}へ切り替え" do %>
+      <i class="fa-solid fa-angles-right"></i>
+    <% end %>
+  </div>
+</div>
+
+<div class="table-border">
+  <table class="day-table">
+    <tr class="day-table-tr">
+      <th class="day-table-name">名前</th>
+      <th class="day-table-th">打刻忘れ</th>
+      <th class="day-table-th">勤怠状況</th>
+      <th class="day-table-th">出勤時間</th>
+      <th class="day-table-th">退勤時間</th>
+      <th class="day-table-th">実労働時間</th>
+      <th class="day-table-th">休憩時間</th>
+    </tr>
+    <% @day_attendances.each do |attendance|%>
+      <tr class="day-table-tr-body">
+        <th onclick='window.location="<%= root_path %>"' role="link" class="day-table-th-name">
+          <div class="day-table-td-name-div">
+            <%=attendance[:user_name]%>
+          </div>
+        </th>
+        <td class="day-table-td-click"></td>
+        <td class="day-table-td-click"><%=attendance[:status]%></td>
+        <td class="day-table-td-click"><%=
+          if attendance[:start_time].nil?
+            "未打刻"
+          else
+            attendance[:start_time].strftime("%H:%M")
+          end
+        %></td>
+        <td class="day-table-td-click"><%=
+          if attendance[:end_time].nil?
+            "未打刻"
+          else
+            attendance[:end_time].strftime("%H:%M")
+          end
+        %></td>
+        <td class="day-table-td-click"><%=attendance[:working_time_str]%></td>
+        <td class="day-table-td-click"><%=attendance[:break_time_str]%></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

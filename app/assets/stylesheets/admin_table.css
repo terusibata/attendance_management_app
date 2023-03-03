@@ -1,0 +1,77 @@
+.table-border{
+  width: 900px;
+
+  margin: 0 auto;
+  border: 2px solid #B1D881;
+  border-radius: 10px;
+}
+.day-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  padding: 0;
+  border-radius: 8px;
+  table-layout: fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+.day-table tr {
+  padding: .35em;
+}
+.day-table-tr{
+  background-color: #B1D881;
+}
+.day-table-tr-body{
+  height: 50px;
+  border-top: 1px solid #999;
+}
+.day-table th,
+.day-table td {
+  text-align: center;
+  padding: 10px;
+  position: relative;
+}
+.day-table th {
+  font-size: 1em;
+  position: relative;
+}
+.day-table thead tr{
+  background-color: #eee;
+}
+.day-table-name{
+  border-right: 1px solid #bbb;
+  width: 250px;
+  position: relative;
+}
+.day-table-td-name-div{
+  height: 45px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.day-table-th-name{
+  background-color: #fff;
+  border-right: 1px solid #bbb;
+  height: 50px;
+}
+.day-table-th{
+  width: 130px;
+}
+.day-table-td-click{
+  cursor: pointer;
+  position: relative;
+}
+td:hover::before{
+  background-color: red;
+  content: "";
+  height: 100%;
+  left: -5000px;
+  position: absolute;
+  top: 0;
+  width: 10000px;
+  z-index: -2;
+}

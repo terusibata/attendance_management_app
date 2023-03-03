@@ -101,6 +101,51 @@ class AttendancesController < ApplicationController
       @month_attendances << attendance_data
     end
   end
+
+  def show_admin_by_day
+    if params[:date].nil? || !valid_date_day?(params[:date])
+      current_date = Time.current
+    else
+      current_date = Time.parse(params[:date])
+    end
+  
+    # 全従業員のレコードを取得
+    @users = User.all
+
+    # 与えられた日付の出勤情報を取得します。
+    @day_attendances = []
+    @users.each do |user|
+      attendance = user.attendances.find_by(work_day: current_date)
+      if attendance.nil?
+        attendance_data = {
+          status: "未登録",
+          user_id: user.id,
+          user_name: user.name
+        }
+      else
+        @attendance_time = calculate_working_time(attendance)
+        attendance_data = {
+          status: "登録済",
+          id: attendance.id,
+          user_id: user.id,
+          user_name: user.name,
+          start_time: attendance.start_time,
+          end_time: attendance.end_time,
+          working_time: @attendance_time[:working_time],
+          break_time: @attendance_time[:break_time],
+          working_time_str: @attendance_time[:working_time_str],
+          break_time_str: @attendance_time[:break_time_str]
+        }
+      end
+      # 出勤情報を配列に追加します。
+      @day_attendances << attendance_data
+    end
+
+    # 結果を変数に代入します。
+    @current_date = current_date.strftime('%Y年%m月%d日')
+    @yesterday = (current_date - 1.day).strftime('%Y-%m-%d')
+    @tomorrow = (current_date + 1.day).strftime('%Y-%m-%d')
+  end
   
   def new
     @user = User.find(params[:user_id])
