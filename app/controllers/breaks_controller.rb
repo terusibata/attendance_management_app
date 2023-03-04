@@ -14,19 +14,75 @@ class BreaksController < ApplicationController
     @user = User.find(params[:user_id])
     if params[:date].nil? || !valid_date_day?(params[:date])
       flash[:error] = "日付が無効です"
-      render 'new'
+      render 'breaks/new'
       return
     else
       current_date = Time.parse(params[:date])
     end
     @new_create_date = current_date.strftime('%Y-%m-%d')
+    @current_date = current_date.strftime('%Y年%m月%d日')
     @attendance = @user.attendances.find_by(work_day: params[:date])
     @break = @attendance.breaks.build(break_params)
+
+    if @attendance.nil?
+      flash[:error] = "日付に対応する勤怠がありません"
+      render 'breaks/new'
+      return
+    end
+
+    if @break.start_time.nil?
+      flash[:error] = "開始時間が無効です"
+      render 'breaks/new'
+      return
+    end
+
+    if @break.end_time.nil?
+      flash[:error] = "終了時間が無効です"
+      render 'breaks/new'
+      return
+    end
+
+    if @break.start_time > @break.end_time
+      flash[:error] = "開始時間が終了時間よりも前です"
+      render 'breaks/new'
+      return
+    end
+
+    if @attendance.breaks.where(end_time: nil).exists? || @attendance.breaks.where(start_time: nil).exists?
+      flash[:error] = "出退勤時間が無効です"
+      render 'breaks/new'
+      return
+    end
+
+    if @attendance.start_time > @break.start_time
+      flash[:error] = "出勤時間が開始時間よりも前です"
+      render 'breaks/new'
+      return
+    end
+
+    if @attendance.end_time < @break.end_time
+      flash[:error] = "退勤時間が終了時間よりも前です"
+      render 'breaks/new'
+      return
+    end
+
+    start_time = Time.parse(check_break_params[:start_time]).strftime('%H:%M:%S')
+    end_time = Time.parse(check_break_params[:end_time]).strftime('%H:%M:%S')
+
+    # 休憩時間の重複チェック
+    @attendance.breaks.where.not(id: @break.id).each do |break_time|
+      if (break_time.start_time.strftime('%H:%M:%S')..break_time.end_time.strftime('%H:%M:%S')).cover?(start_time) || (break_time.start_time.strftime('%H:%M:%S')..break_time.end_time.strftime('%H:%M:%S')).cover?(end_time)
+        flash[:error] = "休憩時間が重複しています"
+        render 'breaks/new'
+        return
+      end
+    end
+
     if @break.save
       flash[:success] = "休憩時間を登録しました"
       redirect_to user_attendance_day_path(@user, @attendance.work_day)
     else
-      render 'new'
+      render 'breaks/new'
     end
   end
 
@@ -40,14 +96,56 @@ class BreaksController < ApplicationController
 
   def update
     @break = Break.find(params[:id])
+    @attendance = @break.attendance
+    @user = User.find(@attendance.user_id) 
     user_id = @break.attendance.user_id
     work_day = @break.attendance.work_day
+
+    @current_date = @attendance.work_day.strftime('%Y年%m月%d日')
+    @new_create_date = @attendance.work_day.strftime('%Y-%m-%d')
+
+    # 入力値のチェック
+    begin
+      start_time = Time.parse(check_break_params[:start_time]).strftime('%H:%M:%S')
+      end_time = Time.parse(check_break_params[:end_time]).strftime('%H:%M:%S')
+    rescue ArgumentError
+      flash[:error] = "休憩時間が無効です"
+      render 'breaks/edit'
+      return
+    end
+
+    puts start_time
+    puts end_time
+    puts @attendance.start_time
+    puts @attendance.end_time
+
+    if @attendance.start_time.strftime('%H:%M:%S') > start_time
+      flash[:error] = "出勤時間が開始時間よりも前です"
+      render 'breaks/edit'
+      return
+    end
+
+    if @attendance.end_time.strftime('%H:%M:%S') < end_time
+      flash[:error] = "退勤時間が終了時間よりも前です"
+      render 'breaks/edit'
+      return
+    end
+
+    # 休憩時間の重複チェック
+    @attendance.breaks.where.not(id: @break.id).each do |break_time|
+      if (break_time.start_time.strftime('%H:%M:%S')..break_time.end_time.strftime('%H:%M:%S')).cover?(start_time) || (break_time.start_time.strftime('%H:%M:%S')..break_time.end_time.strftime('%H:%M:%S')).cover?(end_time)
+        flash[:error] = "休憩時間が重複しています"
+        render 'breaks/edit'
+        return
+      end
+    end
 
     if @break.update(break_params)
       flash[:success] = "休憩時間を更新しました"
       redirect_to user_attendance_day_path(user_id, work_day)
     else
-      render 'edit'
+      flash[:error] = "休憩時間を更新できませんでした"
+      render 'breaks/edit'
     end
   end
 
@@ -93,6 +191,10 @@ class BreaksController < ApplicationController
   
   private
     def break_params
+      params.require(:break).permit(:start_time, :end_time)
+    end
+
+    def check_break_params
       params.require(:break).permit(:start_time, :end_time)
     end
 

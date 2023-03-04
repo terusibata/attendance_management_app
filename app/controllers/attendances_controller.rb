@@ -275,18 +275,36 @@ class AttendancesController < ApplicationController
     @user = User.find(params[:user_id])
     if params[:date].nil? || !valid_date_day?(params[:date])
       flash[:error] = "日付が無効です"
-      render 'new'
+      render 'attendances/new'
       return
     else
       current_date = Time.parse(params[:date])
     end
     @new_create_date = current_date.strftime('%Y-%m-%d')
+    @current_date = current_date.strftime('%Y年%m月%d日')
     @attendance = @user.attendances.build(attendance_params)
+    if @attendance.start_time.nil?
+      flash[:error] = "出勤時間を入力してください"
+      render 'attendances/new'
+      return
+    elsif @attendance.end_time.nil?
+      flash[:error] = "退勤時間を入力してください"
+      render 'attendances/new'
+      return
+    end
+
+    if @attendance.start_time > @attendance.end_time
+      flash[:error] = "勤務時間が無効です"
+      render 'attendances/new'
+      return
+    end
+
     if @attendance.save
       flash[:success] = "勤怠を登録しました"
       redirect_to user_attendance_day_path(@user, @attendance.work_day)
     else
-      render 'new'
+      flash[:error] = "登録に失敗しました"
+      render 'attendances/new'
     end
   end
 
@@ -295,17 +313,50 @@ class AttendancesController < ApplicationController
     @attendance = @user.attendances.find_by(work_day: params[:date])
     if params[:date].nil? || !valid_date_day?(params[:date])
       flash[:error] = "日付が無効です"
-      render 'edit'
+      render 'attendances/edit'
       return
     else
       current_date = Time.parse(params[:date])
     end
     @new_create_date = current_date.strftime('%Y-%m-%d')
+    @current_date = current_date.strftime('%Y年%m月%d日')
+
+    if @attendance.start_time.nil?
+      flash[:error] = "出勤時間を入力してください"
+      render 'attendances/edit'
+      return
+    elsif @attendance.end_time.nil?
+      flash[:error] = "退勤時間を入力してください"
+      render 'attendances/edit'
+      return
+    end
+
+    if @attendance.start_time > @attendance.end_time
+      flash[:error] = "勤務時間が無効です"
+      render 'attendances/edit'
+      return
+    end
+
+    breaks = @attendance.breaks
+
+    if breaks.present? && breaks[0].start_time.strftime('%H:%M:%S') < Time.parse(check_attendance_params[:start_time]).strftime('%H:%M:%S')
+      flash[:error] = "出勤時間が休憩開始時間よりも遅いです"
+      render 'attendances/edit'
+      return
+    end
+
+    if breaks.present? && breaks[breaks.length - 1].end_time.strftime('%H:%M:%S') > Time.parse(check_attendance_params[:end_time]).strftime('%H:%M:%S')
+      flash[:error] = "退勤時間が休憩終了時間よりも早いです"
+      render 'attendances/edit'
+      return
+    end
+
     if @attendance.update(attendance_params)
       flash[:success] = "勤怠を更新しました"
       redirect_to user_attendance_day_path(@user, @attendance.work_day)
     else
-      render 'edit'
+      flash[:error] = "更新に失敗しました"
+      render 'attendances/edit'
     end
   end
 
@@ -358,6 +409,10 @@ class AttendancesController < ApplicationController
   private
     def attendance_params
       params.require(:attendance).permit(:user_id, :start_time, :end_time).merge(work_day: @new_create_date)
+    end
+
+    def check_attendance_params
+      params.require(:attendance).permit(:user_id, :start_time, :end_time)
     end
 
     def valid_date_day?(date)
