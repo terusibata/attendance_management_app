@@ -18,7 +18,7 @@
       <p class="user-show-area-title">雇用開始日</p>
       <p><%= @user.hire_date %></p>
     </div>
-    <%= link_to edit_user_path(@user), class: "index-user-card-button" do %>
+    <%= link_to edit_user_path(@user), class: "index-user-card-button", title: "プロフィールを編集する" do %>
       <i class="fa-solid fa-pen"></i>
       編集
     <% end %>
@@ -33,12 +33,12 @@
   <div class="user-from-body">
     <div class="user-show-attendance">
       <div class="user-show-attendance-button">
-        <%= link_to user_attendance_today_path(@user), class: "index-user-card-button" do %>
+        <%= link_to user_attendance_today_path(@user), class: "index-user-card-button", title: "今日の勤怠" do %>
           日別データ
         <% end %>
       </div>
       <div class="user-show-attendance-button">
-        <%= link_to user_attendance_thismonth_path(@user), class: "index-user-card-button" do %>
+        <%= link_to user_attendance_thismonth_path(@user), class: "index-user-card-button", title: "今月の勤怠" do %>
           月別データ
         <% end %>
       </div>

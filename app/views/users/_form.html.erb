@@ -40,30 +40,36 @@
         </label>
       </div>
 
-      <div class="wave-group user-from-input">
-        <%= f.date_field :hire_date, class: "input" %>
-        <span class="bar"></span>
-        <label class="label">
-          <span>雇用開始日</span>
-        </label>
-      </div>
+      <% if current_user.admin? %>
+        <div class="wave-group user-from-input">
+          <%= f.date_field :hire_date, class: "input" %>
+          <span class="bar"></span>
+          <label class="label">
+            <span>雇用開始日</span>
+          </label>
+        </div>
+      <% end %>
 
-      <div class="wave-group user-from-input">
-        <%= f.date_field :end_date, class: "input" %>
-        <span class="bar"></span>
-        <label class="label">
-          <span>雇用終了日</span>
-        </label>
-      </div>
+      <% if current_user.admin? %>
+        <div class="wave-group user-from-input">
+          <%= f.date_field :end_date, class: "input" %>
+          <span class="bar"></span>
+          <label class="label">
+            <span>雇用終了日</span>
+          </label>
+        </div>
+      <% end %>
 
-      <div class="checkbox-wrapper-16">
-        <label class="checkbox-wrapper">
-          <%= f.check_box :admin, class: "checkbox-input"%>
-          <span class="checkbox-tile">
-            <span class="checkbox-label">管理者権限を与える</span>
-          </span>
-        </label>
-      </div>
+      <% if current_user.admin? %>
+        <div class="checkbox-wrapper-16", title="管理者権限は、従業員すべての閲覧、編集、削除権限が与えられます">
+          <label class="checkbox-wrapper">
+            <%= f.check_box :admin, class: "checkbox-input"%>
+            <span class="checkbox-tile">
+              <span class="checkbox-label">管理者権限を与える</span>
+            </span>
+          </label>
+        </div>
+      <% end %>
 
       <div class="login-card-submit-area user-from-submit-area">
         <%= f.submit yield(:button_text)%>
