@@ -1,0 +1,109 @@
+<div class="home-admin-attendance">
+  <div class="home-admin-attendance-date">
+    <div id="clock-date"></div>
+    <div id="clock-time"></div>
+    <div class="home-attendance-card">
+      <% if @status == "出勤前" %>
+        <p>本日はまだ出勤していません</p>
+      <% elsif @status == "勤務中" %>
+        <p><%= @attendance.start_time.strftime("%H時%M分") %>から勤務中です</p>
+      <% elsif @status == "休憩中" %>
+        <p><%= @attendance.start_time.strftime("%H時%M分") %>から勤務中で、</p>
+        <p><%= @break.start_time.strftime("%H時%M分") %>から休憩中です</p>
+      <% elsif @status == "退勤済" %>
+        <p><%= @attendance.start_time.strftime("%H時%M分") %>に出勤し、</p>
+        <p><%= @attendance.end_time.strftime("%H時%M分") %>に退勤しました</p>
+      <% end %>
+    </div>
+    <div class="home-attendance-button">
+      <% if @status == "出勤前" %>
+        <%= button_to "出勤", start_attendance_path, class: "home-attendance-button-in-text rainbow-color", method: :post, title: "出勤する" %>
+      <% elsif @status == "勤務中" %>
+        <%= button_to "休憩開始", start_break_path, class: "home-attendance-button-in-text green-color", method: :post, title: "休憩を開始する" %>
+        <%= button_to "退勤", end_attendance_path, class: "home-attendance-button-in-text rainbow-color", method: :post, title: "退勤する" %>
+      <% elsif @status == "休憩中" %>
+        <%= button_to "休憩終了", end_break_path(@break.id), class: "home-attendance-button-in-text green-color", method: :post, title: "休憩を終了する" %>
+      <% elsif @status == "退勤済" %>
+        <%= button_to "勤怠管理", user_attendance_today_path(@user), class: "home-attendance-button-in-text rainbow-color", method: :get, title: "本日の勤怠管理へ移動する" %>
+      <% end %>
+    </div>
+  </div>
+  <div class="home-admin-left-card-area"></div>
+  <div class="home-admin-right-card-area">
+    <div class="home-admin-right-card">
+      <h3>本日の勤怠状況</h3>
+      <div class="home-admin-today">
+        <p>出勤人数：2人</p>
+        <p>退勤人数：3人</p>
+        <p>休憩人数：5人</p>
+      </div>
+      <div class="home-admin-today-card">
+        <div class="home-admin-today-card-time">
+          <div class="home-admin-today-card-time-work">
+            8時間28分
+          </div>
+          <div class="home-admin-today-card-time-work">
+            0分
+          </div>
+        </div>
+        <div class="home-admin-today-card-text">
+          <div class="home-admin-today-card-text-name">
+            小原有貴さん
+          </div>
+          <div class="home-admin-today-card-plain-text">
+            本日はまだ出勤していません
+          </div>
+        </div>
+      </div>
+      <div class="home-admin-today-card">
+        <div class="home-admin-today-card-time">
+          <div class="home-admin-today-card-time-work">
+            8時間28分
+          </div>
+          <div class="home-admin-today-card-time-work">
+            0分
+          </div>
+        </div>
+        <div class="home-admin-today-card-text">
+          <div class="home-admin-today-card-text-name">
+            小原有貴さん
+          </div>
+          <div class="home-admin-today-card-plain-text">
+            本日はまだ出勤していません
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function updateClock() {
+    var today = new Date();
+
+    var daysOfWeek = ["(日)", "(月)", "(火)", "(水)", "(木)", "(金)", "(土)"];
+    var dayOfWeek = daysOfWeek[today.getDay()];
+
+    var date = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+    var formattedDate = year + "年" + month + "月" + date + "日";
+
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var seconds = today.getSeconds();
+
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    seconds = seconds < 10 ? '0'+seconds : seconds;
+
+    var time = hours + ':' + minutes + ':' + seconds;
+
+    document.getElementById('clock-date').innerHTML = formattedDate + ' ' + dayOfWeek;
+    document.getElementById('clock-time').innerHTML = time;
+    setTimeout(updateClock, 1000);
+  }
+  if (document.getElementById('clock-date') != null){
+    updateClock();
+  }
+</script>

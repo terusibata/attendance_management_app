@@ -1,0 +1,101 @@
+.home-admin-attendance{
+  position: relative;
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+}
+.home-admin-attendance-date{
+  width: 450px;
+  top: 100px;
+  left: 10%;
+  position: fixed;
+  align-self: center;
+  background-color: #fff;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: 1.5rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  text-align: center;
+}
+.home-admin-left-card-area{
+  width: 45%;
+}
+.home-admin-right-card-area{
+  width: 55%;
+  box-sizing: border-box;
+  padding: 0 20px 30px 20px;
+  margin-bottom: 30px;
+}
+.home-admin-right-card{
+  border: 2px solid #000;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  margin-top: 20px;
+}
+.home-admin-right-card h3{
+  text-align: center;
+  font-size: 1.7rem;
+  margin: 10px 0;
+}
+.home-admin-today{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home-admin-today p{
+  font-size: 1.4rem;
+  margin: 0 20px;
+}
+.home-admin-today-card{
+  width: 100%;
+  margin-top: 20px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  display: flex;
+}
+.home-admin-today-card-time{
+  width: 30%;
+}
+.home-admin-today-card-text{
+  width: 70%;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.home-admin-today-card-time-work{
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-sizing: border-box;
+  padding: 2px 0;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 10px;
+}
+.home-admin-today-card-text-name{
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin: 10px;
+  border-bottom: 1px solid #000;
+}
+.home-admin-today-card-plain-text{
+  font-size: 1.2rem;
+  margin: 10px;
+}
