@@ -50,6 +50,10 @@ Rails.application.routes.draw do
     "/admin/attendance/day/#{Date.today.strftime('%Y-%m-%d')}"
   }
   get '/admin/attendance/day/:date', to: 'attendances#show_admin_by_day', as: :admin_attendance_day
+  get '/admin/attendance/thismonth', to: redirect { |params, request|
+    "/admin/attendance/month/#{Date.today.strftime('%Y-%m')}"
+  }
+  get '/admin/attendance/month/:month', to: 'attendances#show_admin_by_month', as: :admin_attendance_month
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

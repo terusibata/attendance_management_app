@@ -37,7 +37,7 @@ class AttendancesController < ApplicationController
     else
       current_month = Time.new(params[:month].split('-')[0].to_i, params[:month].split('-')[1].to_i, 1)
     end
-    puts current_month
+
     # その月の最初の日を取得
     first_day = current_month.beginning_of_month
     # その月の最後の日を取得
@@ -146,6 +146,110 @@ class AttendancesController < ApplicationController
     @current_date_day = current_date.strftime('%Y-%m-%d')
     @yesterday = (current_date - 1.day).strftime('%Y-%m-%d')
     @tomorrow = (current_date + 1.day).strftime('%Y-%m-%d')
+  end
+
+  def show_admin_by_month
+    if params[:month].nil? || !valid_date_month?(params[:month])
+      current_month = Time.current.beginning_of_month
+    else
+      current_month = Time.new(params[:month].split('-')[0].to_i, params[:month].split('-')[1].to_i, 1)
+    end
+
+    # 全従業員のレコードを取得
+    @users = User.all
+
+    # その月の最初の日を取得
+    first_day = current_month.beginning_of_month
+    # その月の最後の日を取得
+    last_day = current_month.end_of_month
+    # その月の日数を計算
+    days_in_month = last_day.day
+
+    # ["2月1日","2日"...""]
+    @days = []
+    wd = ["日", "月", "火", "水", "木", "金", "土"]
+    days_in_month.times do |i|
+      @days << {
+        day_str: (first_day + i.days).strftime("%d日(#{wd[(first_day + i.days).wday]})"),
+        day: (first_day + i.days).strftime('%Y-%m-%d')
+      }
+    end
+
+    # その月の出勤情報を取得します。
+    @month_attendances = []
+    @users.each do |user|
+      # 与えられた月のすべての日付に対する出勤情報を取得します。
+      attendances = user.attendances.where(work_day: first_day..last_day).order(work_day: :asc)
+
+      # 与えられた月の実労働時間と休憩時間を計算します。
+      working_seconds = 0
+      break_seconds = 0
+      attendances.each do |attendance|
+        break_time_list = attendance.breaks.order(start_time: :asc, id: :asc).all
+        break_seconds += break_time_list.map { |break_time|
+          break_time.end_time.present? && break_time.start_time.present? ? break_time.end_time - break_time.start_time : 0
+        }.sum
+        # 出勤時間と退勤時間が両方存在する場合のみ、実労働時間を計算します。
+        if attendance.start_time.present? && attendance.end_time.present?
+          working_seconds += attendance.end_time - attendance.start_time - break_seconds
+        end
+      end
+
+      @day_attendances = []
+      error_count = 0
+      # 与えられた月のすべての日付に対する出勤情報を取得します。
+      days_in_month.times do |i|
+        # 出勤日を取得
+        work_day = first_day + i.days
+        attendance = user.attendances.find_by(work_day: work_day)
+        if attendance.nil?
+          attendance_data = {
+            status: "未登録",
+            work_day: work_day.strftime('%Y-%m-%d'),
+          }
+        else
+          @attendance_time = calculate_working_time(attendance)
+          if attendance.start_time.nil?
+            error_count += 1
+          end
+          if attendance.end_time.nil?
+            error_count += 1
+          end
+          attendance_data = {
+            status: "登録済",
+            id: attendance.id,
+            work_day: work_day.strftime('%Y-%m-%d'),
+            start_time: attendance.start_time,
+            end_time: attendance.end_time,
+            working_time: @attendance_time[:working_time],
+            break_time: @attendance_time[:break_time],
+            working_time_str: @attendance_time[:working_time_str],
+            break_time_str: @attendance_time[:break_time_str]
+          }
+        end
+        # 出勤情報を配列に追加します。
+        @day_attendances << attendance_data
+      end
+      
+      # 結果を変数に代入します。
+      @month_attendances << {
+        user_id: user.id,
+        user_name: user.name,
+        error_count: error_count,
+        attendances: @day_attendances,
+        working_seconds: working_seconds,
+        break_seconds: break_seconds,
+        working_time_total_str: convert_seconds_to_time_str(working_seconds),
+        break_time_total_str: convert_seconds_to_time_str(break_seconds)
+      }
+    end
+
+    # 結果を変数に代入します。
+    @current_month = current_month.strftime('%Y年%m月')
+    @current_month_day = current_month.strftime('%Y-%m')
+    @last_month = (current_month - 1.month).strftime('%Y-%m')
+    @next_month = (current_month + 1.month).strftime('%Y-%m')
+    
   end
   
   def new
@@ -313,8 +417,6 @@ class AttendancesController < ApplicationController
           }.sum
         end
         # 労働時間を計算します。
-        puts "開始時間: #{attendance.start_time}"
-        puts "終了時間: #{attendance.end_time}"
         working_seconds = attendance.end_time - attendance.start_time - break_seconds
       end
 

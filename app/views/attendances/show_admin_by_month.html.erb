@@ -1,0 +1,77 @@
+<% provide(:title, "従業員全員の#{@current_month}の勤怠状況") %>
+
+<div class="attendance-card">
+  <div class="attendance-card-date">
+    <%= link_to admin_attendance_month_path(@last_month), class: "attendance-card-date-icon", title: "前月：#{@last_month}へ切り替え" do %>
+      <i class="fa-solid fa-angles-left"></i>
+    <% end %>
+    <div class="attendance-card-date-text">
+      <%= @current_month %>
+    </div>
+    <%= link_to admin_attendance_month_path(@next_month), class: "attendance-card-date-icon", title: "翌月：#{@next_month}へ切り替え" do %>
+      <i class="fa-solid fa-angles-right"></i>
+    <% end %>
+  </div>
+</div>
+
+<div class="month-table-scroll">
+  <div class="month-table-border">
+    <table class="month-table">
+      <tr class="month-table-tr">
+        <th class="month-table-name">名前</th>
+        <th class="month-table-th">打刻忘れ</th>
+        <th class="month-table-th">合計実労働時間</th>
+        <th class="month-table-th">合計休憩時間</th>
+        <% @days.each do |day| %>
+          <th onclick='window.location="<%= admin_attendance_day_path(day[:day]) %>"' role="link" class="month-table-th month-table-th-click" title="<%=day[:day]%>の勤怠へ"><%= day[:day_str] %></th>
+        <% end %>
+      </tr>
+      <% @month_attendances.each do |user|%>
+        <tr class="day-table-tr-body">
+          <th onclick='window.location="<%= user_path(user[:user_id]) %>"' role="link" class="day-table-th-name" title="<%=user[:user_name]%>さんのプロフィール確認へ">
+            <div class="day-table-td-name-div">
+              <%=user[:user_name]%>
+            </div>
+          </th>
+          <td>
+            <% if user[:error_count] > 0 %>
+              <div class="day-table-td-status-div" title="<%=user[:error_count]%>件の打刻忘れがあるようです">
+                <i class="fa-solid fa-exclamation-circle"></i>
+                <%= user[:error_count]%>
+              </div>
+            <% end %>
+          </td>
+          <td>
+            <%= user[:working_time_total_str] %>
+          </td>
+          <td>
+            <%= user[:break_time_total_str] %>
+          </td>
+          <% user[:attendances].each do |attendance|%>
+            <td onclick='window.location="<%= user_attendance_day_path(user[:user_id], attendance[:work_day]) %>"' role="link" class="month-table-attendance" title="<%= user[:user_name] %>さんの<%= attendance[:work_day] %>の勤怠確認へ">
+              <% if attendance[:status] == "登録済" %>
+                <%=
+                  if attendance[:start_time].nil?
+                    "入力なし"
+                  else
+                    attendance[:start_time].strftime("%H:%M")
+                  end
+                %>
+                <div class="month-table-attendance-space">
+                  ～ 
+                </div>
+                <%=
+                  if attendance[:end_time].nil?
+                    "入力なし"
+                  else
+                    attendance[:end_time].strftime("%H:%M")
+                  end
+                %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

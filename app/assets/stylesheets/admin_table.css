@@ -10,7 +10,6 @@
   padding: 0;
   border-radius: 8px;
   table-layout: fixed;
-
   overflow: hidden;
 }
 
@@ -98,6 +97,7 @@
 }
 .day-table-td-status-div{
   font-size: 1.2em;
+  cursor: help;
   color: #d77171;
 }
 .day-table-td-status-div:hover{
@@ -111,4 +111,51 @@
     margin: 0 auto 30px auto;
     overflow: auto;
   }
+}
+
+
+.month-table-scroll{
+  overflow: auto;
+  margin-bottom: 30px;
+  max-height: calc(100vh - 280px);
+  overflow-x: scroll;
+  width: 90%;
+  margin: auto;
+}
+.month-table-scroll{
+  border-radius: 10px;
+  border: 2px solid #B1D881;
+}
+.month-table-scroll table {
+  white-space: nowrap;
+  border-collapse: collapse;
+  border-radius: 8px;
+}
+
+.month-table-tr {
+  background-color: #c1ed8cc4;
+}
+
+.month-table-scroll th,
+.month-table-scroll td {
+  padding: 5px 15px;
+  text-align: center;
+}
+.month-table-attendance-space{
+  rotate: 90deg;
+}
+.month-table-attendance{
+  cursor: pointer;
+}
+.month-table-attendance:hover{
+  background-color: #f6ffeb;
+}
+.month-table-attendance:active{
+  background-color: #e3f9c9;
+}
+.month-table-th-click{
+  cursor: pointer;
+}
+.month-table-th-click:hover{
+  background-color: #f6ffeb;
 }
