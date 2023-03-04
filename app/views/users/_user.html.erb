@@ -8,10 +8,10 @@
         <div class="index-user-card-button-top-text">
           <p>プロフィール</p>
         </div>
-        <%= link_to user, class: "index-user-card-button" do %>
+        <%= link_to user, class: "index-user-card-button", title: "#{user.name}さんのプロフィール確認する" do %>
           確認
         <% end %>
-        <%= link_to edit_user_path(user), class: "index-user-card-button" do %>
+        <%= link_to edit_user_path(user), class: "index-user-card-button", title: "#{user.name}さんのプロフィールを編集する" do %>
           編集
         <% end %>
       </div>
@@ -23,17 +23,17 @@
         <%= link_to root_path, class: "index-user-card-button" do %>
           年別データ
         <% end %>
-        <%= link_to user_attendance_thismonth_path(user), class: "index-user-card-button" do %>
+        <%= link_to user_attendance_thismonth_path(user), class: "index-user-card-button", title: "#{user.name}さんの今月の勤怠を確認する" do %>
           月別データ
         <% end %>
-        <%= link_to user_attendance_today_path(user), class: "index-user-card-button" do %>
+        <%= link_to user_attendance_today_path(user), class: "index-user-card-button",  title: "#{user.name}さんの今日の勤怠を確認する" do %>
           日別データ
         <% end %>
       </div>
     </div>
     <div class="index-user-card-delete">
       <% if current_user.admin? && !current_user?(user) %>
-      <%= button_to "削除", user, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+        <%= button_to "削除", user, method: :delete, data: { confirm: "本当に削除しますか？" }, title: "#{user.name}さんのアカウントを削除しますか？\n関連する情報がすべて削除されます" %>
       <% end %>
     </div>
   </div>
