@@ -1,16 +1,16 @@
 <div class="header-box">
   <%= link_to root_path do %>
-    <div class="header-left">
+    <div class="header-left" title="ホームへ移動する">
       <div class="header-button-area icon-right">
         <i class="fa-solid fa-house header-home-icon"></i>
         <p class="header-home-text">ホーム</p>
       </div>
     </div>
   <% end %>
-  <div class="header-text">
+  <div class="header-text" title="勤怠管理システム">
     <%= link_to "勤怠管理システム", root_path %>
   </div>
-  <div class="header-right">
+  <div class="header-right" title="メニューの開閉ができます">
     <% if logged_in? %>
       <% if params[:menu] %>
         <%= button_to "", "#{request.path}", { method: :get } %>
@@ -19,7 +19,7 @@
           <p class="header-bars-text">閉じる</p>
         </div>
       <% else %>
-      <%= button_to "", "#{request.path}", { method: :get, params: {menu: true} } %>
+        <%= button_to "", "#{request.path}", { method: :get, params: {menu: true} } %>
         <div class="header-button-area icon-left">
           <i class="fa-solid fa-bars header-bars-cion"></i>
           <p class="header-bars-text">メニュー</p>
@@ -48,12 +48,12 @@
         <div class="header-menu-contents-card-button-area">
           <% if current_user.admin %>
             <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "月別データ", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "日別データ", admin_attendance_today_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "月別データ", admin_attendance_thismonth_path, class: "header-menu-contents-card-button", title: "今月の従業員全員の勤怠" %>
+            <%= link_to "日別データ", admin_attendance_today_path, class: "header-menu-contents-card-button", title: "今日の従業員全員の勤怠" %>
           <% else %>
             <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "月別データ", user_attendance_thismonth_path(current_user), class: "header-menu-contents-card-button" %>
-            <%= link_to "日別データ", user_attendance_today_path(current_user), class: "header-menu-contents-card-button" %>
+            <%= link_to "月別データ", user_attendance_thismonth_path(current_user), class: "header-menu-contents-card-button", title: "今月の勤怠" %>
+            <%= link_to "日別データ", user_attendance_today_path(current_user), class: "header-menu-contents-card-button", title: "今日の勤怠" %>
           <% end %>
         </div>
       </div>
@@ -64,8 +64,8 @@
             <p class="header-menu-contents-card-text">従業員</p>
           </div>
           <div class="header-menu-contents-card-button-area">
-            <%= link_to "一覧", users_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "新規追加", signup_path, class: "header-menu-contents-card-button" %>
+            <%= link_to "一覧", users_path, class: "header-menu-contents-card-button", title: "従業員の一覧を確認できます" %>
+            <%= link_to "新規追加", signup_path, class: "header-menu-contents-card-button", title: "従業員のアカウントを作成できます" %>
           </div>
         </div>
       <% end %>
@@ -97,9 +97,9 @@
           <p class="header-menu-contents-card-text"><%= current_user.email %></p>
         </div>
         <div class="header-menu-contents-card-button-area">
-          <%= link_to "確認", current_user, class: "header-menu-contents-card-button" %>
-          <%= link_to "編集", edit_user_path(current_user), class: "header-menu-contents-card-button" %>
-          <div class="header-menu-contents-card-button">
+          <%= link_to "確認", current_user, class: "header-menu-contents-card-button", title: "ログインしているアカウントのプロフィールを確認できます" %>
+          <%= link_to "編集", edit_user_path(current_user), class: "header-menu-contents-card-button", title: "ログインしているアカウントのプロフィールを編集できます" %>
+          <div class="header-menu-contents-card-button" title="ログアウトできます">
             <%= button_to "ログアウト", logout_path, method: :delete %>
           </div>
         </div>
