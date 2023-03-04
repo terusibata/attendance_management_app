@@ -143,6 +143,7 @@ class AttendancesController < ApplicationController
 
     # 結果を変数に代入します。
     @current_date = current_date.strftime('%Y年%m月%d日')
+    @current_date_day = current_date.strftime('%Y-%m-%d')
     @yesterday = (current_date - 1.day).strftime('%Y-%m-%d')
     @tomorrow = (current_date + 1.day).strftime('%Y-%m-%d')
   end

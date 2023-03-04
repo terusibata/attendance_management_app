@@ -14,43 +14,61 @@
   </div>
 </div>
 
-<div class="table-border">
-  <table class="day-table">
-    <tr class="day-table-tr">
-      <th class="day-table-name">名前</th>
-      <th class="day-table-th">打刻忘れ</th>
-      <th class="day-table-th">勤怠状況</th>
-      <th class="day-table-th">出勤時間</th>
-      <th class="day-table-th">退勤時間</th>
-      <th class="day-table-th">実労働時間</th>
-      <th class="day-table-th">休憩時間</th>
-    </tr>
-    <% @day_attendances.each do |attendance|%>
-      <tr class="day-table-tr-body">
-        <th onclick='window.location="<%= root_path %>"' role="link" class="day-table-th-name">
-          <div class="day-table-td-name-div">
-            <%=attendance[:user_name]%>
-          </div>
-        </th>
-        <td class="day-table-td-click"></td>
-        <td class="day-table-td-click"><%=attendance[:status]%></td>
-        <td class="day-table-td-click"><%=
-          if attendance[:start_time].nil?
-            "未打刻"
-          else
-            attendance[:start_time].strftime("%H:%M")
-          end
-        %></td>
-        <td class="day-table-td-click"><%=
-          if attendance[:end_time].nil?
-            "未打刻"
-          else
-            attendance[:end_time].strftime("%H:%M")
-          end
-        %></td>
-        <td class="day-table-td-click"><%=attendance[:working_time_str]%></td>
-        <td class="day-table-td-click"><%=attendance[:break_time_str]%></td>
+<div class="table-scroll">
+  <div class="table-border">
+    <table class="day-table">
+      <tr class="day-table-tr">
+        <th class="day-table-name">名前</th>
+        <th class="day-table-th">打刻忘れ</th>
+        <th class="day-table-th">勤怠状況</th>
+        <th class="day-table-th">出勤時間</th>
+        <th class="day-table-th">退勤時間</th>
+        <th class="day-table-th">実労働時間</th>
+        <th class="day-table-th">休憩時間</th>
       </tr>
-    <% end %>
-  </table>
+      <% @day_attendances.each do |attendance|%>
+        <tr class="day-table-tr-body">
+          <th onclick='window.location="<%= user_path(attendance[:user_id]) %>"' role="link" class="day-table-th-name" title="<%=attendance[:user_name]%>さんのプロフィール確認へ">
+            <div class="day-table-td-name-div">
+              <%=attendance[:user_name]%>
+            </div>
+          </th>
+          <td onclick='window.location="<%= user_attendance_day_path(attendance[:user_id], @current_date_day) %>"' role="link" class="day-table-td-click" title="<%=attendance[:user_name]%>さんの<%=@current_date%>の勤怠確認へ">
+            <% if attendance[:status] == "登録済" && (attendance[:start_time].nil? || attendance[:end_time].nil?) %>
+              <div class="day-table-td-status-div" title="打刻忘れがあるようです">
+                <i class="fa-solid fa-exclamation-circle"></i>
+              </div>
+            <% end %>
+          </td>
+          <td onclick='window.location="<%= user_attendance_day_path(attendance[:user_id], @current_date_day) %>"' role="link" class="day-table-td-click" title="<%=attendance[:user_name]%>さんの<%=@current_date%>の勤怠確認へ">
+            <% if attendance[:status] == "登録済"%>
+              <div>
+                出勤
+              </div>
+            <% elsif attendance[:status] == "未登録"%>
+              <div>
+                --
+              </div>
+            <% end %>
+          </td>
+          <td onclick='window.location="<%= user_attendance_day_path(attendance[:user_id], @current_date_day) %>"' role="link" class="day-table-td-click" title="<%=attendance[:user_name]%>さんの<%=@current_date%>の勤怠確認へ"><%=
+            if attendance[:start_time].nil?
+              ""
+            else
+              attendance[:start_time].strftime("%H:%M")
+            end
+          %></td>
+          <td onclick='window.location="<%= user_attendance_day_path(attendance[:user_id], @current_date_day) %>"' role="link" class="day-table-td-click" title="<%=attendance[:user_name]%>さんの<%=@current_date%>の勤怠確認へ"><%=
+            if attendance[:end_time].nil?
+              ""
+            else
+              attendance[:end_time].strftime("%H:%M")
+            end
+          %></td>
+          <td onclick='window.location="<%= user_attendance_day_path(attendance[:user_id], @current_date_day) %>"' role="link" class="day-table-td-click" title="<%=attendance[:user_name]%>さんの<%=@current_date%>の勤怠確認へ"><%=attendance[:working_time_str]%></td>
+          <td onclick='window.location="<%= user_attendance_day_path(attendance[:user_id], @current_date_day) %>"' role="link" class="day-table-td-click" title="<%=attendance[:user_name]%>さんの<%=@current_date%>の勤怠確認へ"><%=attendance[:break_time_str]%></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
 </div>
