@@ -1,0 +1,29 @@
+run = "chmod u+x -R bin/* && gem install bundler -v '~> 2.4' && bundle install && rm -rf /home/runner/attendancemanagementapp/tmp/pids/server.pid && rails server --binding=0.0.0.0"
+entrypoint = "app/controllers/application_controller.rb"
+
+hidden = [".bundle", ".config"]
+
+[env]
+TZ = "/home/runner/${REPL_SLUG}/.config/Tokyo"
+PATH = "/home/runner/${REPL_SLUG}/bin"
+EDITOR = "nano"
+RACK_MINI_PROFILER = "off"
+
+[packager]
+language = "ruby"
+
+[packager.features]
+packageSearch = true
+guessImports = true
+
+[nix]
+channel = "stable-22_11"
+
+[languages]
+
+[languages.ruby]
+pattern = "**/*.rb"
+
+[languages.ruby.languageServer]
+start = "solargraph stdio"
+
