@@ -108,4 +108,18 @@
       button.textContent = '全て表示';
     }
   }
+  
+  function updateNowUserAttendances() {
+    $.ajax({
+      url: '/now_user_attendances',
+      dataType: 'json',
+      success: function(data) {
+        $('#now-user-attendances-container').html(data.html);
+      }
+    });
+  }
+
+  $(document).ready(function() {
+    setInterval(updateNowUserAttendances, 10000);
+  });
 </script>
