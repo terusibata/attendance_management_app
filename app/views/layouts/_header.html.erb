@@ -1,14 +1,12 @@
 <div class="header-box">
-  <%= link_to root_path do %>
-    <div class="header-left" title="ホームへ移動する">
-      <div class="header-button-area icon-right">
-        <i class="fa-solid fa-house header-home-icon"></i>
-        <p class="header-home-text">ホーム</p>
-      </div>
+  <div onclick="home()" class="header-left" title="ホームへ移動する">
+    <div class="header-button-area icon-right">
+      <i class="fa-solid fa-house header-home-icon"></i>
+      <p class="header-home-text">ホーム</p>
     </div>
-  <% end %>
-  <div class="header-text" title="勤怠管理システム">
-    <%= link_to "勤怠管理システム", root_path %>
+  </div>
+  <div onclick="home()" class="header-text" title="勤怠管理システム">
+    <a>勤怠管理システム</a>
   </div>
   <div class="header-right" title="メニューの開閉ができます" onclick="menu()">
     <% if logged_in? %>
@@ -120,5 +118,17 @@
       menu_open.style.display = 'none';
       menu_close.style.display = 'block';
     }
+  }
+  function home() {
+    var menu = document.getElementById('menu');
+    var menu_open = document.getElementById('menu-open');
+    var menu_close = document.getElementById('menu-close');
+    
+    if (menu.style.display === 'block') {
+      menu.style.display = 'none';
+      menu_open.style.display = 'none';
+      menu_close.style.display = 'block';
+    }
+    window.location.href = "/";
   }
 </script>
