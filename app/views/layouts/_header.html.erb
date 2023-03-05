@@ -10,97 +10,94 @@
   <div class="header-text" title="勤怠管理システム">
     <%= link_to "勤怠管理システム", root_path %>
   </div>
-  <div class="header-right" title="メニューの開閉ができます">
+  <div class="header-right" title="メニューの開閉ができます" onclick="menu()">
     <% if logged_in? %>
-      <% if params[:menu] %>
-        <%= button_to "", "#{request.path}", { method: :get } %>
-        <div class="header-button-area icon-left">
-          <i class="fa-solid fa-xmark header-bars-cion"></i>
-          <p class="header-bars-text">閉じる</p>
-        </div>
-      <% else %>
-        <%= button_to "", "#{request.path}", { method: :get, params: {menu: true} } %>
-        <div class="header-button-area icon-left">
-          <i class="fa-solid fa-bars header-bars-cion"></i>
-          <p class="header-bars-text">メニュー</p>
-        </div>
-      <% end %>
+      <div id="menu-open" class="header-button-area icon-left" style="display:none;">
+        <i class="fa-solid fa-xmark header-bars-cion"></i>
+        <p class="header-bars-text">閉じる</p>
+      </div>
+      <div id="menu-close" class="header-button-area icon-left">
+        <i class="fa-solid fa-bars header-bars-cion"></i>
+        <p class="header-bars-text">メニュー</p>
+      </div>
     <% end %>
   </div>
 </div>
 
-<% if params[:menu] && logged_in? %>
-  <div class="header-background" id="header-background"></div>
-  <div class="header-menu">
-    <div class="header-menu-card">
-      <div>
-        <p class="header-menu-card-text">管理項目</p>
-      </div>
-      <div class="header-menu-contents-card">
-        <div class="header-menu-contents-card-icon-area">
-          <i class="fa-solid fa-database header-menu-contents-card-icon"></i>
-          <% if current_user.admin %>
-            <p class="header-menu-contents-card-text">勤怠状況</p>
-          <% else %>
-            <p class="header-menu-contents-card-text">自分の勤怠状況</p>
-          <% end %>
+<% if logged_in? %>
+  <div id="menu" style="display:none;">
+    <div class="header-background" id="header-background"></div>
+    <div class="header-menu">
+      <div class="header-menu-card">
+        <div>
+          <p class="header-menu-card-text">管理項目</p>
         </div>
-        <div class="header-menu-contents-card-button-area">
-          <% if current_user.admin %>
-            <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "月別データ", admin_attendance_thismonth_path, class: "header-menu-contents-card-button", title: "今月の従業員全員の勤怠" %>
-            <%= link_to "日別データ", admin_attendance_today_path, class: "header-menu-contents-card-button", title: "今日の従業員全員の勤怠" %>
-          <% else %>
-            <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
-            <%= link_to "月別データ", user_attendance_thismonth_path(current_user), class: "header-menu-contents-card-button", title: "今月の勤怠" %>
-            <%= link_to "日別データ", user_attendance_today_path(current_user), class: "header-menu-contents-card-button", title: "今日の勤怠" %>
-          <% end %>
-        </div>
-      </div>
-      <% if current_user.admin %>
         <div class="header-menu-contents-card">
           <div class="header-menu-contents-card-icon-area">
-            <i class="fa-solid fa-users header-menu-contents-card-icon"></i>
-            <p class="header-menu-contents-card-text">従業員</p>
+            <i class="fa-solid fa-database header-menu-contents-card-icon"></i>
+            <% if current_user.admin %>
+              <p class="header-menu-contents-card-text">勤怠状況</p>
+            <% else %>
+              <p class="header-menu-contents-card-text">自分の勤怠状況</p>
+            <% end %>
           </div>
           <div class="header-menu-contents-card-button-area">
-            <%= link_to "一覧", users_path, class: "header-menu-contents-card-button", title: "従業員の一覧を確認できます" %>
-            <%= link_to "新規追加", signup_path, class: "header-menu-contents-card-button", title: "従業員のアカウントを作成できます" %>
+            <% if current_user.admin %>
+              <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
+              <%= link_to "月別データ", admin_attendance_thismonth_path, class: "header-menu-contents-card-button", title: "今月の従業員全員の勤怠" %>
+              <%= link_to "日別データ", admin_attendance_today_path, class: "header-menu-contents-card-button", title: "今日の従業員全員の勤怠" %>
+            <% else %>
+              <%= link_to "年別データ", root_path, class: "header-menu-contents-card-button" %>
+              <%= link_to "月別データ", user_attendance_thismonth_path(current_user), class: "header-menu-contents-card-button", title: "今月の勤怠" %>
+              <%= link_to "日別データ", user_attendance_today_path(current_user), class: "header-menu-contents-card-button", title: "今日の勤怠" %>
+            <% end %>
+          </div>
+        </div>
+        <% if current_user.admin %>
+          <div class="header-menu-contents-card">
+            <div class="header-menu-contents-card-icon-area">
+              <i class="fa-solid fa-users header-menu-contents-card-icon"></i>
+              <p class="header-menu-contents-card-text">従業員</p>
+            </div>
+            <div class="header-menu-contents-card-button-area">
+              <%= link_to "一覧", users_path, class: "header-menu-contents-card-button", title: "従業員の一覧を確認できます" %>
+              <%= link_to "新規追加", signup_path, class: "header-menu-contents-card-button", title: "従業員のアカウントを作成できます" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <% if current_user.admin %>
+        <div class="header-menu-card">
+          <div>
+            <p class="header-menu-card-text">レポート</p>
+          </div>
+          <div class="header-menu-contents-card">
+            <div class="header-menu-contents-card-icon-area">
+              <i class="fa-solid fa-user-pen header-menu-contents-card-icon"></i>
+              <p class="header-menu-contents-card-text">勤怠状況</p>
+            </div>
+            <div class="header-menu-contents-card-button-area">
+              <%= link_to "一覧", root_path, class: "header-menu-contents-card-button" %>
+            </div>
           </div>
         </div>
       <% end %>
-    </div>
-    <% if current_user.admin %>
       <div class="header-menu-card">
         <div>
-          <p class="header-menu-card-text">レポート</p>
+          <p class="header-menu-card-text">個人項目</p>
         </div>
         <div class="header-menu-contents-card">
           <div class="header-menu-contents-card-icon-area">
-            <i class="fa-solid fa-user-pen header-menu-contents-card-icon"></i>
-            <p class="header-menu-contents-card-text">勤怠状況</p>
+            <i class="fa-solid fa-user header-menu-contents-card-icon"></i>
+            <p class="header-menu-contents-card-text"><%= current_user.name %> 様</p>
+            <p class="header-menu-contents-card-text"><%= current_user.email %></p>
           </div>
           <div class="header-menu-contents-card-button-area">
-            <%= link_to "一覧", root_path, class: "header-menu-contents-card-button" %>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    <div class="header-menu-card">
-      <div>
-        <p class="header-menu-card-text">個人項目</p>
-      </div>
-      <div class="header-menu-contents-card">
-        <div class="header-menu-contents-card-icon-area">
-          <i class="fa-solid fa-user header-menu-contents-card-icon"></i>
-          <p class="header-menu-contents-card-text"><%= current_user.name %> 様</p>
-          <p class="header-menu-contents-card-text"><%= current_user.email %></p>
-        </div>
-        <div class="header-menu-contents-card-button-area">
-          <%= link_to "確認", current_user, class: "header-menu-contents-card-button", title: "ログインしているアカウントのプロフィールを確認できます" %>
-          <%= link_to "編集", edit_user_path(current_user), class: "header-menu-contents-card-button", title: "ログインしているアカウントのプロフィールを編集できます" %>
-          <div class="header-menu-contents-card-button" title="ログアウトできます">
-            <%= button_to "ログアウト", logout_path, method: :delete %>
+            <%= link_to "確認", current_user, class: "header-menu-contents-card-button", title: "ログインしているアカウントのプロフィールを確認できます" %>
+            <%= link_to "編集", edit_user_path(current_user), class: "header-menu-contents-card-button", title: "ログインしているアカウントのプロフィールを編集できます" %>
+            <div class="header-menu-contents-card-button" title="ログアウトできます">
+              <%= button_to "ログアウト", logout_path, method: :delete %>
+            </div>
           </div>
         </div>
       </div>
@@ -108,3 +105,20 @@
   </div>
 <% end %>
 
+<script type="text/javascript">
+  function menu() {
+    var menu = document.getElementById('menu');
+    var menu_open = document.getElementById('menu-open');
+    var menu_close = document.getElementById('menu-close');
+    
+    if (menu.style.display === 'none') {
+      menu.style.display = 'block';
+      menu_open.style.display = 'block';
+      menu_close.style.display = 'none';
+    } else {
+      menu.style.display = 'none';
+      menu_open.style.display = 'none';
+      menu_close.style.display = 'block';
+    }
+  }
+</script>

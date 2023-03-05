@@ -66,17 +66,7 @@
   width: 100px;
   height: 55px;
   background-color: #B1D881;
-}
-.header-right button{
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
   cursor: pointer;
-  border: none;
-  outline: none;
-  padding: 0;
-  appearance: none;
 }
 
 .header-button-area{
