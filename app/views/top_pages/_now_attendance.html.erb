@@ -1,0 +1,30 @@
+<div class="home-admin-reload" onclick='window.location="<%= root_path %>"' role="link" title="10秒で自動更新されます">
+  <i class="fa-solid fa-rotate"></i> 更新
+</div>
+<div class="home-admin-today">
+  <p>勤務中：<%= @now_attendance_count[:"勤務中"] %>人</p>
+  <p>休憩中：<%= @now_attendance_count[:"休憩中"] %>人</p>
+  <p>退勤済：<%= @now_attendance_count[:"退勤済"] %>人</p>
+</div>
+<% @now_user_attendances.each do |now_user_attendance| %>
+  <% if now_user_attendance[:status] == "勤務中" || now_user_attendance[:status] =="休憩中" %>
+    <div class="home-admin-today-card">
+      <div class="home-admin-today-card-time">
+        <div class="home-admin-today-card-time-work">
+          <%= now_user_attendance[:now_working_time][:working_time_str] %>
+        </div>
+        <div class="home-admin-today-card-time-work">
+          <%= now_user_attendance[:now_working_time][:break_time_str] %>
+        </div>
+      </div>
+      <div class="home-admin-today-card-text">
+        <div class="home-admin-today-card-text-name">
+          <%= now_user_attendance[:user_name] %>さん
+        </div>
+        <div class="home-admin-today-card-plain-text">
+          <%= now_user_attendance[:comment] %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

@@ -2,3 +2,17 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 import "@fortawesome/fontawesome-free"
+
+function updateNowUserAttendances() {
+  $.ajax({
+    url: '/now_user_attendances',
+    dataType: 'json',
+    success: function(data) {
+      $('#now-user-attendances-container').html(data.html);
+    }
+  });
+}
+
+$(document).ready(function() {
+  setInterval(updateNowUserAttendances, 10000);
+});

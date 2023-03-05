@@ -31,34 +31,8 @@ class TopPagesController < ApplicationController
       last_day = today.end_of_month
 
       @users.each do |user|
-        user_attendance = user.attendances.find_by(work_day: Time.current)
-
-        if user_attendance.nil?
-          user_status = "出勤前"
-          comment = "本日はまだ出勤していません"
-        elsif user_attendance.end_time.nil?
-          user_status = "勤務中"
-          comment = "現在、勤務中です"
-          user_break = user_attendance.breaks.find_by(end_time: nil)
-          if user_break.present?
-            user_status = "休憩中"
-            comment = "現在、休憩中です"
-          end
-        else
-          user_status = "退勤済"
-          comment = "本日は退勤済です"
-        end
-
-        @now_attendance_count[user_status.to_sym] += 1
-
-        @now_user_attendances << {
-          user_name: user.name,
-          user_id: user.id,
-          comment: comment,
-          now_working_time: now_working_time(user_attendance),
-          attendance: user_attendance, 
-          status: user_status
-        }
+        @now_user_attendances << now_user_attendance(user)
+        @now_attendance_count[@now_user_attendances.last[:status].to_sym] += 1
 
         attendances = user.attendances.where(work_day: first_day..last_day).order(work_day: :asc)
 
@@ -89,6 +63,23 @@ class TopPagesController < ApplicationController
       @this_month_attendance_list.sort! { |a, b| b[:working_seconds] <=> a[:working_seconds] }
 
     end
+  end
+
+  def now_user_attendances
+    @users = User.all
+    @now_user_attendances = []
+    @now_attendance_count = { "出勤前": 0, "勤務中": 0, "休憩中": 0, "退勤済": 0 }
+
+    @users.each do |user|
+      @now_user_attendances << now_user_attendance(user)
+      @now_attendance_count[@now_user_attendances.last[:status].to_sym] += 1
+    end
+
+    partial = render_to_string(partial: 'now_attendance', :locals => { 
+      now_user_attendances: @now_user_attendances,
+      now_attendance_count: @now_attendance_count
+    })
+    render json:{html:partial}
   end
 
   private
@@ -149,12 +140,40 @@ class TopPagesController < ApplicationController
       else
         hours = seconds / 3600
         minutes = (seconds % 3600) / 60
-        puts hours
         if hours.floor.zero?
           return "#{minutes.to_i}分"
         else
           return "#{hours.to_i}時間#{minutes.to_i}分"
         end
       end
+    end
+
+    def now_user_attendance(user)
+      user_attendance = user.attendances.find_by(work_day: Time.current)
+
+      if user_attendance.nil?
+        user_status = "出勤前"
+        comment = "本日はまだ出勤していません"
+      elsif user_attendance.end_time.nil?
+        user_status = "勤務中"
+        comment = "現在、勤務中です"
+        user_break = user_attendance.breaks.find_by(end_time: nil)
+        if user_break.present?
+          user_status = "休憩中"
+          comment = "現在、休憩中です"
+        end
+      else
+        user_status = "退勤済"
+        comment = "本日は退勤済です"
+      end
+
+      return {
+        user_name: user.name,
+        user_id: user.id,
+        comment: comment,
+        now_working_time: now_working_time(user_attendance),
+        attendance: user_attendance, 
+        status: user_status
+      }
     end
 end

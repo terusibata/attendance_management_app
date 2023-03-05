@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'top_pages#home'
+  get    '/now_user_attendances', to: 'top_pages#now_user_attendances', as: :now_user_attendances
   get    '/signup', to: 'users#new'
   get    '/login',  to: 'sessions#new'
   post   '/login',  to: 'sessions#create'
