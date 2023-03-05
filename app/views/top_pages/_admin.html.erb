@@ -32,46 +32,53 @@
   <div class="home-admin-right-card-area">
     <div class="home-admin-right-card">
       <h3>本日の勤怠状況</h3>
+      <div class="home-admin-reload" onclick='window.location="<%= root_path %>"' role="link" ><i class="fa-solid fa-rotate"></i> 更新</div>
       <div class="home-admin-today">
-        <p>出勤人数：2人</p>
-        <p>退勤人数：3人</p>
-        <p>休憩人数：5人</p>
+        <p>勤務中：<%= @now_attendance_count[:"勤務中"] %>人</p>
+        <p>休憩中：<%= @now_attendance_count[:"休憩中"] %>人</p>
+        <p>退勤済：<%= @now_attendance_count[:"退勤済"] %>人</p>
       </div>
-      <div class="home-admin-today-card">
-        <div class="home-admin-today-card-time">
-          <div class="home-admin-today-card-time-work">
-            8時間28分
+      <% @now_user_attendances.each do |now_user_attendance| %>
+        <% if now_user_attendance[:status] == "勤務中" || now_user_attendance[:status] =="休憩中" %>
+          <div class="home-admin-today-card">
+            <div class="home-admin-today-card-time">
+              <div class="home-admin-today-card-time-work">
+                <%= now_user_attendance[:now_working_time][:working_time_str] %>
+              </div>
+              <div class="home-admin-today-card-time-work">
+                <%= now_user_attendance[:now_working_time][:break_time_str] %>
+              </div>
+            </div>
+            <div class="home-admin-today-card-text">
+              <div class="home-admin-today-card-text-name">
+                <%= now_user_attendance[:user_name] %>さん
+              </div>
+              <div class="home-admin-today-card-plain-text">
+                <%= now_user_attendance[:comment] %>
+              </div>
+            </div>
           </div>
-          <div class="home-admin-today-card-time-work">
-            0分
-          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="home-admin-right-card">
+      <h3>今月の勤怠状況</h3>
+      <h4 onclick="toggleDisplay()" title="表示を切り替えます">
+        <i class="fa-solid fa-right-left"></i> <span id="this_month_button">勤務時間が多い3名</span>
+      </h4>
+      <% @this_month_attendance_list.first(3).each do |this_month_attendance| %>
+        <div class="home-admin-top3-card">
+          <p><%= this_month_attendance[:user_name] %>さん</p>
+          <p>勤務時間： <%= this_month_attendance[:working_time_str] %></p>
         </div>
-        <div class="home-admin-today-card-text">
-          <div class="home-admin-today-card-text-name">
-            小原有貴さん
+      <% end %>
+      <div id="all_attendances" style="display:none;">
+        <% @this_month_attendance_list.each do |this_month_attendance| %>
+          <div class="home-admin-all-card">
+            <p><%= this_month_attendance[:user_name] %>さん</p>
+            <p>勤務時間： <%= this_month_attendance[:working_time_str] %></p>
           </div>
-          <div class="home-admin-today-card-plain-text">
-            本日はまだ出勤していません
-          </div>
-        </div>
-      </div>
-      <div class="home-admin-today-card">
-        <div class="home-admin-today-card-time">
-          <div class="home-admin-today-card-time-work">
-            8時間28分
-          </div>
-          <div class="home-admin-today-card-time-work">
-            0分
-          </div>
-        </div>
-        <div class="home-admin-today-card-text">
-          <div class="home-admin-today-card-text-name">
-            小原有貴さん
-          </div>
-          <div class="home-admin-today-card-plain-text">
-            本日はまだ出勤していません
-          </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -105,5 +112,25 @@
   }
   if (document.getElementById('clock-date') != null){
     updateClock();
+  }
+
+  function toggleDisplay() {
+    var top3 = document.querySelectorAll('.home-admin-top3-card');
+    var all = document.getElementById('all_attendances');
+    var button = document.getElementById('this_month_button');
+    
+    if (all.style.display === 'none') {
+      top3.forEach(function(card) {
+        card.style.display = 'none';
+      });
+      all.style.display = 'block';
+      button.textContent = '上位3名を表示';
+    } else {
+      top3.forEach(function(card) {
+        card.style.display = 'flex';
+      });
+      all.style.display = 'none';
+      button.textContent = '全て表示';
+    }
   }
 </script>

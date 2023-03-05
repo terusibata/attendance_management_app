@@ -49,11 +49,18 @@
   box-sizing: border-box;
   padding: 10px 20px;
   margin-top: 20px;
+  position: relative;
 }
 .home-admin-right-card h3{
   text-align: center;
   font-size: 1.7rem;
   margin: 10px 0;
+}
+.home-admin-right-card h4{
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 10px 0;
+  cursor: pointer;
 }
 .home-admin-today{
   display: flex;
@@ -98,4 +105,33 @@
 .home-admin-today-card-plain-text{
   font-size: 1.2rem;
   margin: 10px;
+}
+
+.home-admin-top3-card,
+.home-admin-all-card{
+  width: 100%;
+  margin-top: 20px;
+  border: 2px solid #000;
+  border-radius: 10px;
+  display: flex;
+  box-sizing: border-box;
+  padding: 10px;
+}
+.home-admin-top3-card p,
+.home-admin-all-card p{
+  font-size: 1.2rem;
+  margin: 0;
+  width: 50%;
+  text-align: center;
+}
+.home-admin-reload{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 70px;
+  text-align: center;
+  border: 1px solid #000;
+  border-radius: 5px;
+  cursor: pointer;
+
 }

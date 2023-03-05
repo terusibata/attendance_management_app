@@ -492,7 +492,7 @@ class AttendancesController < ApplicationController
       else
         hours = seconds / 3600
         minutes = (seconds % 3600) / 60
-        if hours.zero?
+        if hours.floor.zero?
           return "#{minutes.to_i}分"
         else
           return "#{hours.to_i}時間#{minutes.to_i}分"
