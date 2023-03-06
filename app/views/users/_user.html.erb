@@ -20,7 +20,7 @@
         <div class="index-user-card-button-bottom-text">
           <p>勤怠状況</p>
         </div>
-        <%= link_to root_path, class: "index-user-card-button" do %>
+        <%= link_to root_path, class: "index-user-card-button header-menu-not-allowed", title: "現在利用できません" do %>
           年別データ
         <% end %>
         <%= link_to user_attendance_thismonth_path(user), class: "index-user-card-button", title: "#{user.name}さんの今月の勤怠を確認する" do %>
