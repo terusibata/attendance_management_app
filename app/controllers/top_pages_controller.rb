@@ -1,5 +1,6 @@
 class TopPagesController < ApplicationController
   before_action :logged_in_user, only: [:home]
+  before_action :admin_user,     only: :now_user_attendances
 
   def home
     @user = current_user
@@ -90,6 +91,11 @@ class TopPagesController < ApplicationController
         flash[:error] = "ログインしてください"
         redirect_to login_url
       end
+    end
+
+    # 管理者かどうか確認
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
 
     # 今の勤怠時間を計算します。

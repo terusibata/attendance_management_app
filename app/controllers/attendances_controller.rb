@@ -1,6 +1,11 @@
 class AttendancesController < ApplicationController
   before_action :logged_in_user
   before_action :correct_user,   only: [:show_by_day, :show_by_month, :new, :edit, :create, :update, :destroy]
+  before_action :admin_user,     only: [:show_admin_by_day, :show_admin_by_month]
+  
+  def index
+    @attendances = Attendance.all
+  end
 
   def show_by_day
     @user = User.find(params[:user_id])
