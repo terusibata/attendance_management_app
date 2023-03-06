@@ -40,7 +40,7 @@ class TopPagesController < ApplicationController
         break_seconds = 0
         attendances.each do |attendance|
           break_time_list = attendance.breaks.order(start_time: :asc, id: :asc).all
-          break_seconds += break_time_list.map { |break_time|
+          break_seconds = break_time_list.map { |break_time|
             break_time.end_time.present? && break_time.start_time.present? ? break_time.end_time - break_time.start_time : 0
           }.sum
           # 出勤時間と退勤時間が両方存在する場合のみ、実労働時間を計算します。
