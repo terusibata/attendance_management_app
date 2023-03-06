@@ -1,5 +1,5 @@
 <div class="home-admin-reload" onclick='updateNowUserAttendances()' role="link" title="10秒で自動更新されます">
-  <i class="fa-solid fa-rotate"></i> 更新
+  <i class="fa-solid fa-rotate start-rotate"></i> 今すぐ更新
 </div>
 <div class="home-admin-today">
   <p>勤務中：<%= @now_attendance_count[:"勤務中"] %>人</p>
@@ -8,12 +8,40 @@
 </div>
 <% @now_user_attendances.each do |now_user_attendance| %>
   <% if now_user_attendance[:status] == "勤務中" || now_user_attendance[:status] =="休憩中" %>
-    <div class="home-admin-today-card">
+    <div class="home-admin-today-card
+      <% if now_user_attendance[:status] == "勤務中" %>
+        <% if now_user_attendance[:now_working_time][:working_seconds] >= 25200 %>
+          yellow-color
+        <% elsif now_user_attendance[:now_working_time][:working_seconds] >= 28800 %>
+          red-color
+        <% else %>
+          work-color
+        <% end %>
+      <% elsif now_user_attendance[:status] == "休憩中" %>
+        break-color
+      <% end %>
+    ">
       <div class="home-admin-today-card-time">
-        <div class="home-admin-today-card-time-work">
+        <div class="home-admin-today-card-time-work 
+          <% if now_user_attendance[:now_working_time][:working_seconds] == 0 %>
+            gray-color
+          <% elsif now_user_attendance[:now_working_time][:working_seconds] >= 25200 %>
+            yellow-color
+          <% elsif now_user_attendance[:now_working_time][:working_seconds] >= 28800 %>
+            red-color
+          <% else %>
+            work-color
+          <% end %>
+        ">
           <%= now_user_attendance[:now_working_time][:working_time_str] %>
         </div>
-        <div class="home-admin-today-card-time-work">
+        <div class="home-admin-today-card-time-work
+          <% if now_user_attendance[:now_working_time][:break_seconds] == 0 %>
+            gray-color
+          <% else %>
+            break-color
+          <% end %>
+        ">
           <%= now_user_attendance[:now_working_time][:break_time_str] %>
         </div>
       </div>

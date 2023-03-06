@@ -6,8 +6,9 @@
 }
 .home-admin-attendance-date{
   width: 450px;
-  top: 100px;
+  top: 40%;
   left: 10%;
+  transform: translateY(-50%);
   position: fixed;
   align-self: center;
   background-color: #fff;
@@ -44,28 +45,70 @@
   margin-bottom: 30px;
 }
 .home-admin-right-card{
-  border: 2px solid #000;
   border-radius: 10px;
   box-sizing: border-box;
-  padding: 10px 20px;
+  padding: 10px 20px 20px 20px;
   margin-top: 20px;
   position: relative;
+  box-shadow: 0 0 1px 1px #B1D881, 0 0 3px 2px #B1D881 inset;
+}
+.home-admin-right-card-flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .home-admin-right-card h3{
   text-align: center;
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   margin: 10px 0;
+  display: inline-block;
+  position: relative;
+  padding: .1em 1em;
+  border-right: 27px solid #b1d881;
+  background-color: #f5f5f5;
+}
+.home-admin-right-card h3::before{
+  position: absolute;
+  bottom: 2px;
+  right: -20px;
+  z-index: -1;
+  transform: rotate(5deg);
+  width: 100%;
+  height: 50%;
+  background-color: #d0d0d0;
+  content: "";
+  filter: blur(4px);
 }
 .home-admin-right-card h4{
   text-align: center;
   font-size: 1.2rem;
   margin: 10px 0;
   cursor: pointer;
+  position: relative;
+  padding-bottom: 5px;
+  border-bottom: 2px solid #B1D881;
 }
 .home-admin-today{
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #B1D881;
+  position: relative;
+}
+.home-admin-today::after,
+.home-admin-right-card h4::after{
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 10px 0 10px;
+  border-color: #B1D881 transparent transparent transparent;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .home-admin-today p{
   font-size: 1.4rem;
@@ -74,9 +117,23 @@
 .home-admin-today-card{
   width: 100%;
   margin-top: 20px;
-  border: 2px solid #000;
   border-radius: 10px;
   display: flex;
+}
+.gray-color{
+  border: 2px solid gray;
+}
+.yellow-color{
+  border: 2px solid #CB912F;
+}
+.work-color{
+  border: 2px solid #81C3D8;
+}
+.break-color{
+  border: 2px solid #B1D881;
+}
+.red-color{
+  border: 2px solid #D88181;
 }
 .home-admin-today-card-time{
   width: 30%;
@@ -92,7 +149,6 @@
   font-weight: bold;
   box-sizing: border-box;
   padding: 2px 0;
-  border: 1px solid #000;
   border-radius: 5px;
   margin: 10px;
 }
@@ -111,7 +167,6 @@
 .home-admin-all-card{
   width: 100%;
   margin-top: 20px;
-  border: 2px solid #000;
   border-radius: 10px;
   display: flex;
   box-sizing: border-box;
@@ -126,12 +181,95 @@
 }
 .home-admin-reload{
   position: absolute;
-  top: 20px;
+  top: 25px;
   right: 20px;
-  width: 70px;
+  width: 120px;
   text-align: center;
-  border: 1px solid #000;
+  border: 1px solid #B1D881;
   border-radius: 5px;
   cursor: pointer;
+}
+.home-admin-reload:hover{
+  box-shadow: 0 0 1px 1px #B1D881, 0 0 3px 2px #B1D881;
+}
+.start-rotate{
+  animation: start-rotate .75s linear;
+}
+@keyframes start-rotate{
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
+  }
+}
 
+/* widthが1300px以下になったら */
+@media screen and (max-width: 1300px) {
+  .home-admin-attendance{
+    display: block;
+    max-width: 800px;
+  }
+  .home-admin-attendance-date{
+    position: relative;
+    display: block;
+    left: auto;
+    margin: auto;
+    transform: none;
+  }
+  .home-admin-left-card-area{
+    display: none;
+  }
+  .home-admin-right-card-area{
+    width: 100%;
+  }
+}
+
+/* widthが700px以下になったら */
+@media screen and (max-width: 700px) {
+  .home-admin-attendance-date{
+    width: 100%;
+    margin-bottom: 30px;
+  }
+  #clock-date{
+    height: 60px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  #clock-time{
+    font-size: 3rem;
+    font-weight: bold;
+  }
+  .home-attendance-button-in-text{
+    font-size: 1.1rem;
+    width: 150px;
+  }
+  .home-admin-reload{
+    display: none;
+  }
+  .home-admin-today{
+    display: block;
+    text-align: center;
+  }
+  .home-admin-today-card{
+    display: block;
+  }
+  .home-admin-today-card-time,
+  .home-admin-today-card-text{
+    width: 100%;
+  }
+  .home-admin-today-card-text-name{
+    font-size: 1.2rem;
+  }
+  .home-admin-today-card-plain-text{
+    font-size: 1rem;
+  }
+  .home-admin-top3-card,
+  .home-admin-all-card{
+    display: block;
+  }
+  .home-admin-top3-card p,
+  .home-admin-all-card p{
+    width: 100%;
+  }
 }

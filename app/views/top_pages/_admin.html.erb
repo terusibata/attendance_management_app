@@ -31,27 +31,51 @@
   <div class="home-admin-left-card-area"></div>
   <div class="home-admin-right-card-area">
     <div class="home-admin-right-card">
-      <h3>本日の勤怠状況</h3>
+      <div class="home-admin-right-card-flex">
+        <h3>本日の勤怠状況</h3>
+      </div>
       <div id="now-user-attendances-container">
         <%= render 'now_attendance' %>
       </div>
     </div>
     <div class="home-admin-right-card">
-      <h3>今月の勤怠状況</h3>
+      <div class="home-admin-right-card-flex">
+        <h3>今月の勤怠状況</h3>
+      </div>
       <h4 onclick="toggleDisplay()" title="表示を切り替えます">
         <i class="fa-solid fa-right-left"></i> <span id="this_month_button">勤務時間が多い3名</span>
       </h4>
       <% @this_month_attendance_list.first(3).each do |this_month_attendance| %>
-        <div class="home-admin-top3-card">
+        <div class="home-admin-top3-card
+          <% if this_month_attendance[:working_seconds] == 0 %>
+            gray-color
+          <% elsif this_month_attendance[:working_seconds] >= 25200 %>
+            yellow-color
+          <% elsif this_month_attendance[:working_seconds] >= 28800 %>
+            red-color
+          <% else %>
+            work-color
+          <% end %>
+        ">
           <p><%= this_month_attendance[:user_name] %>さん</p>
-          <p>勤務時間： <%= this_month_attendance[:working_time_str] %></p>
+          <p>実労働時間： <%= this_month_attendance[:working_time_str] %></p>
         </div>
       <% end %>
       <div id="all_attendances" style="display:none;">
         <% @this_month_attendance_list.each do |this_month_attendance| %>
-          <div class="home-admin-all-card">
+          <div class="home-admin-all-card
+            <% if this_month_attendance[:working_seconds] == 0 %>
+              gray-color
+            <% elsif this_month_attendance[:working_seconds] >= 25200 %>
+              yellow-color
+            <% elsif this_month_attendance[:working_seconds] >= 28800 %>
+              red-color
+            <% else %>
+              work-color
+            <% end %>
+          ">
             <p><%= this_month_attendance[:user_name] %>さん</p>
-            <p>勤務時間： <%= this_month_attendance[:working_time_str] %></p>
+            <p>実労働時間： <%= this_month_attendance[:working_time_str] %></p>
           </div>
         <% end %>
       </div>
