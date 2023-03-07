@@ -26,17 +26,32 @@ User.create!(name:  "従業員アカウント2",
   hire_date:             "2023-02-01",
   admin:                 false,
 )
-Attendance.create!(user_id: 1, work_day: "2023-02-01", start_time: "09:00:00", end_time: "18:00:00")
-Attendance.create!(user_id: 1, work_day: "2023-02-02", start_time: "09:00:00", end_time: "18:00:00")
-Attendance.create!(user_id: 2, work_day: "2023-02-03", start_time: "09:00:00", end_time: "18:00:00")
-Attendance.create!(user_id: 2, work_day: "2023-02-04", start_time: "09:00:00", end_time: "18:00:00")
-Attendance.create!(user_id: 3, work_day: "2023-02-05", start_time: "09:00:00", end_time: "18:00:00")
-Attendance.create!(user_id: 3, work_day: "2023-02-06", start_time: "09:00:00", end_time: "18:00:00")
+User.create!(name:  "従業員アカウント3",
+  email:                 "user3@test.com",
+  password:              "usertest3",
+  password_confirmation: "usertest3",
+  hire_date:             "2023-03-01",
+  admin:                 false,
+)
+
+Attendance.create!(user_id: 1, work_day: "2023-03-01", start_time: "09:00:00", end_time: "17:00:00")
+Attendance.create!(user_id: 1, work_day: "2023-03-02", start_time: "09:30:00", end_time: "16:00:00")
+Attendance.create!(user_id: 1, work_day: "2023-03-03", start_time: "09:20:00", end_time: "18:00:00")
+Attendance.create!(user_id: 1, work_day: "2023-03-04", start_time: "09:10:00", end_time: "17:40:00")
+Attendance.create!(user_id: 1, work_day: "2023-03-05", start_time: "09:40:00", end_time: "19:30:00")
+Attendance.create!(user_id: 1, work_day: "2023-03-06", start_time: "09:50:00", end_time: "18:10:00")
+
+Attendance.create!(user_id: 2, work_day: "2023-03-01", start_time: "09:00:00", end_time: "17:00:00")
+Attendance.create!(user_id: 2, work_day: "2023-03-02", start_time: "09:30:00", end_time: "16:00:00")
+Attendance.create!(user_id: 2, work_day: "2023-03-03", start_time: "09:20:00", end_time: "18:00:00")
+Attendance.create!(user_id: 3, work_day: "2023-03-04", start_time: "09:10:00", end_time: "17:40:00")
+Attendance.create!(user_id: 3, work_day: "2023-03-05", start_time: "09:40:00", end_time: "19:30:00")
+Attendance.create!(user_id: 3, work_day: "2023-03-06", start_time: "09:50:00", end_time: "18:10:00")
 
 Break.create!(attendance_id: 1, start_time: "10:00:00", end_time: "11:00:00")
 Break.create!(attendance_id: 1, start_time: "11:20:00", end_time: "11:30:00")
-Break.create!(attendance_id: 1, start_time: "12:00:00", end_time: "13:10:00")
-Break.create!(attendance_id: 2, start_time: "10:00:00", end_time: "11:00:00")
-Break.create!(attendance_id: 2, start_time: "12:00:00", end_time: "13:10:00")
-Break.create!(attendance_id: 3, start_time: "10:00:00", end_time: "11:00:00")
-Break.create!(attendance_id: 3, start_time: "12:00:00", end_time: "13:10:00")
+Break.create!(attendance_id: 2, start_time: "12:00:00", end_time: "12:30:00")
+Break.create!(attendance_id: 3, start_time: "12:10:00", end_time: "12:30:00")
+Break.create!(attendance_id: 4, start_time: "12:03:00", end_time: "12:40:00")
+Break.create!(attendance_id: 5, start_time: "12:05:00", end_time: "12:50:00")
+Break.create!(attendance_id: 6, start_time: "12:06:00", end_time: "12:60:00")
