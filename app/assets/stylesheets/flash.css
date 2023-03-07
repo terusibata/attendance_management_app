@@ -2,6 +2,7 @@
   position: relative;
 }
 .alert {
+  z-index: 90;
   max-width: 450px;
   position: fixed;
   bottom: 25px;
@@ -19,7 +20,7 @@
 }
 
 .alert-success{
-  background-color: #ecffe9;
+  background-color: #ecffe9dc;
 }
 .alert-success .alert-icon{
   margin-top: 3px;
@@ -30,7 +31,7 @@
 }
 
 .alert-error{
-  background-color: #ffebee;
+  background-color: #ffebeeda;
 }
 .alert-error .alert-icon{
   margin-top: 3px;
