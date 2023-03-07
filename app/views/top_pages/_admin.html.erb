@@ -50,12 +50,12 @@
           <div class="home-admin-top3-card
             <% if this_month_attendance[:working_seconds] == 0 %>
               gray-color
-            <% elsif this_month_attendance[:working_seconds] >= 25200 %>
-              yellow-color
-            <% elsif this_month_attendance[:working_seconds] >= 28800 %>
-              red-color
-            <% else %>
+            <% elsif this_month_attendance[:working_seconds] < 108000 %>
               work-color
+            <% elsif this_month_attendance[:working_seconds] < 144000 %>
+              yellow-color
+            <% elsif this_month_attendance[:working_seconds] >= 144000 %>
+              red-color
             <% end %>
           ">
             <p><%= this_month_attendance[:user_name] %>さん</p>
@@ -69,12 +69,12 @@
             <div class="home-admin-all-card
               <% if this_month_attendance[:working_seconds] == 0 %>
                 gray-color
-              <% elsif this_month_attendance[:working_seconds] >= 25200 %>
-                yellow-color
-              <% elsif this_month_attendance[:working_seconds] >= 28800 %>
-                red-color
-              <% else %>
+              <% elsif this_month_attendance[:working_seconds] < 108000 %>
                 work-color
+              <% elsif this_month_attendance[:working_seconds] < 144000 %>
+                yellow-color
+              <% elsif this_month_attendance[:working_seconds] >= 144000 %>
+                red-color
               <% end %>
             ">
               <p><%= this_month_attendance[:user_name] %>さん</p>

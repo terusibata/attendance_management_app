@@ -10,12 +10,12 @@
   <% if now_user_attendance[:status] == "勤務中" || now_user_attendance[:status] =="休憩中" %>
     <div class="home-admin-today-card
       <% if now_user_attendance[:status] == "勤務中" %>
-        <% if now_user_attendance[:now_working_time][:working_seconds] >= 25200 %>
+        <% if now_user_attendance[:now_working_time][:working_seconds] < 25200 %>
+          work-color
+        <% elsif now_user_attendance[:now_working_time][:working_seconds] < 28800 %>
           yellow-color
         <% elsif now_user_attendance[:now_working_time][:working_seconds] >= 28800 %>
           red-color
-        <% else %>
-          work-color
         <% end %>
       <% elsif now_user_attendance[:status] == "休憩中" %>
         break-color
@@ -25,12 +25,12 @@
         <div class="home-admin-today-card-time-work 
           <% if now_user_attendance[:now_working_time][:working_seconds] == 0 %>
             gray-color
-          <% elsif now_user_attendance[:now_working_time][:working_seconds] >= 25200 %>
+          <% elsif now_user_attendance[:now_working_time][:working_seconds] < 25200 %>
+            work-color
+          <% elsif now_user_attendance[:now_working_time][:working_seconds] < 28800 %>
             yellow-color
           <% elsif now_user_attendance[:now_working_time][:working_seconds] >= 28800 %>
             red-color
-          <% else %>
-            work-color
           <% end %>
         ">
           <%= now_user_attendance[:now_working_time][:working_time_str] %>
