@@ -289,17 +289,18 @@ class AttendancesController < ApplicationController
     @new_create_date = current_date.strftime('%Y-%m-%d')
     @current_date = current_date.strftime('%Y年%m月%d日')
     @attendance = @user.attendances.build(attendance_params)
-    if @attendance.start_time.nil?
+
+    if check_attendance_params[:start_time].empty?
       flash[:error] = "出勤時間を入力してください"
       render 'attendances/new'
       return
-    elsif @attendance.end_time.nil?
+    elsif check_attendance_params[:end_time].empty?
       flash[:error] = "退勤時間を入力してください"
       render 'attendances/new'
       return
     end
 
-    if @attendance.start_time > @attendance.end_time
+    if check_attendance_params[:start_time] > check_attendance_params[:end_time]
       flash[:error] = "勤務時間が無効です"
       render 'attendances/new'
       return
@@ -327,17 +328,19 @@ class AttendancesController < ApplicationController
     @new_create_date = current_date.strftime('%Y-%m-%d')
     @current_date = current_date.strftime('%Y年%m月%d日')
 
-    if @attendance.start_time.nil?
+    if check_attendance_params[:start_time].empty?
       flash[:error] = "出勤時間を入力してください"
       render 'attendances/edit'
       return
-    elsif @attendance.end_time.nil?
+    end
+
+    if check_attendance_params[:end_time].empty?
       flash[:error] = "退勤時間を入力してください"
       render 'attendances/edit'
       return
     end
 
-    if @attendance.start_time > @attendance.end_time
+    if check_attendance_params[:start_time] > check_attendance_params[:end_time]
       flash[:error] = "勤務時間が無効です"
       render 'attendances/edit'
       return

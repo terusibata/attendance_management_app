@@ -30,19 +30,19 @@ class BreaksController < ApplicationController
       return
     end
 
-    if @break.start_time.nil?
+    if check_break_params[:start_time].empty?
       flash[:error] = "開始時間が無効です"
       render 'breaks/new'
       return
     end
 
-    if @break.end_time.nil?
+    if check_break_params[:end_time].empty?
       flash[:error] = "終了時間が無効です"
       render 'breaks/new'
       return
     end
 
-    if @break.start_time > @break.end_time
+    if check_break_params[:start_time] > check_break_params[:end_time]
       flash[:error] = "開始時間が終了時間よりも前です"
       render 'breaks/new'
       return
@@ -54,20 +54,20 @@ class BreaksController < ApplicationController
       return
     end
 
-    if @attendance.start_time > @break.start_time
+    start_time = Time.parse(check_break_params[:start_time]).strftime('%H:%M:%S')
+    end_time = Time.parse(check_break_params[:end_time]).strftime('%H:%M:%S')
+
+    if @attendance.start_time.strftime('%H:%M:%S') > start_time
       flash[:error] = "出勤時間が開始時間よりも前です"
       render 'breaks/new'
       return
     end
 
-    if @attendance.end_time < @break.end_time
+    if @attendance.end_time.strftime('%H:%M:%S') < end_time
       flash[:error] = "退勤時間が終了時間よりも前です"
       render 'breaks/new'
       return
     end
-
-    start_time = Time.parse(check_break_params[:start_time]).strftime('%H:%M:%S')
-    end_time = Time.parse(check_break_params[:end_time]).strftime('%H:%M:%S')
 
     # 休憩時間の重複チェック
     @attendance.breaks.where.not(id: @break.id).each do |break_time|
@@ -105,19 +105,26 @@ class BreaksController < ApplicationController
     @new_create_date = @attendance.work_day.strftime('%Y-%m-%d')
 
     # 入力値のチェック
-    begin
-      start_time = Time.parse(check_break_params[:start_time]).strftime('%H:%M:%S')
-      end_time = Time.parse(check_break_params[:end_time]).strftime('%H:%M:%S')
-    rescue ArgumentError
-      flash[:error] = "休憩時間が無効です"
+    if check_break_params[:start_time].empty?
+      flash[:error] = "開始時間が無効です"
       render 'breaks/edit'
       return
     end
 
-    puts start_time
-    puts end_time
-    puts @attendance.start_time
-    puts @attendance.end_time
+    if check_break_params[:end_time].empty?
+      flash[:error] = "終了時間が無効です"
+      render 'breaks/edit'
+      return
+    end
+
+    if check_break_params[:start_time] > check_break_params[:end_time]
+      flash[:error] = "開始時間が終了時間よりも前です"
+      render 'breaks/edit'
+      return
+    end
+
+    start_time = Time.parse(check_break_params[:start_time]).strftime('%H:%M:%S')
+    end_time = Time.parse(check_break_params[:end_time]).strftime('%H:%M:%S')
 
     if @attendance.start_time.strftime('%H:%M:%S') > start_time
       flash[:error] = "出勤時間が開始時間よりも前です"
